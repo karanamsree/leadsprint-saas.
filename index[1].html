@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadSprint AI - Multi-Sector B2B & Retail Lead Generation SaaS</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .badge-glow { box-shadow: 0 0 15px rgba(16, 185, 129, 0.25); }
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: #f1f5f9; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- TOP STATUS BAR / CLIENT RESTRICTION NOTICE -->
+  <div id="clientLockBar" class="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center space-x-2">
+      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span> Client Session Locked
+      </span>
+      <span class="text-slate-400">Restricted Device Access:</span>
+      <span id="lockBarDetails" class="font-medium text-white">Sri Sai Auto Finance (+91 9876543210)</span>
+      <span class="hidden md:inline text-slate-500">• Single-Tenant Client Sandbox (Data Never Shared)</span>
+    </div>
+    <div class="flex items-center space-x-3">
+      <span class="text-slate-400">State: <strong class="text-slate-200" id="lockBarState">Andhra Pradesh</strong></span>
+      <button id="btnSwitchAccount" class="text-slate-400 hover:text-white underline text-xs">Switch / Re-login</button>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        
+        <!-- Logo & Branding -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-md shadow-blue-500/20">
+            LS
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-extrabold text-lg text-slate-900 tracking-tight">LeadSprint<span class="text-blue-600">.AI</span></span>
+              <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">SaaS v2.4</span>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block">Deep Scraping & WhatsApp Automation Engine</p>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="hidden md:flex space-x-1 lg:space-x-2">
+          <button id="navTabScraper" class="nav-tab px-3 py-2 text-sm font-medium rounded-lg text-blue-600 bg-blue-50 border border-blue-200/60 flex items-center space-x-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <span>Lead Scraper</span>
+          </button>
+          <button id="navTabLeads" class="nav-tab px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <span>Leads CRM (<span id="leadsNavCount">18</span>)</span>
+          </button>
+          <button id="navTabCampaign" class="nav-tab px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1.5">
+            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            <span>WhatsApp Auto-Send</span>
+          </button>
+          <button id="navTabAnalytics" class="nav-tab px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <span>Analytics</span>
+          </button>
+          <button id="navTabArchitecture" class="nav-tab px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1.5">
+            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            <span>SaaS Architecture</span>
+          </button>
+        </nav>
+
+        <!-- Right User Card & Quick Action -->
+        <div class="flex items-center space-x-3">
+          <div class="hidden sm:block text-right">
+            <div id="headerUserName" class="text-sm font-semibold text-slate-800">Suresh Kumar</div>
+            <div id="headerUserBusiness" class="text-xs text-blue-600 font-medium">Auto Finance Specialist</div>
+          </div>
+          <div class="w-9 h-9 rounded-full bg-slate-200 border-2 border-blue-500 flex items-center justify-center font-bold text-slate-700 text-sm">
+            SK
+          </div>
+          <button id="btnMobileMenu" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100" aria-label="Toggle navigation menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-3 space-y-1">
+      <button id="mTabScraper" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-blue-600 bg-blue-50">Lead Scraper</button>
+      <button id="mTabLeads" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-600">Leads CRM</button>
+      <button id="mTabCampaign" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-600">WhatsApp Outreach</button>
+      <button id="mTabAnalytics" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-600">Analytics</button>
+      <button id="mTabArchitecture" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-600">SaaS Architecture</button>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- MODAL / OVERLAY: ONBOARDING & OTP REGISTRATION (If Not Logged In) -->
+    <div id="authModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-100 overflow-hidden transform transition-all">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white text-center">
+          <div class="w-12 h-12 rounded-xl bg-white/10 mx-auto flex items-center justify-center text-2xl font-black mb-2">
+            🔐
+          </div>
+          <h2 class="text-xl font-bold">Client Onboarding & OTP Lock</h2>
+          <p class="text-xs text-blue-100 mt-1">Single-Client Dedicated SaaS Access</p>
+        </div>
+
+        <!-- Step 1: Registration Form -->
+        <div id="authStep1" class="p-6 space-y-4">
+          <p class="text-xs text-slate-500">
+            Register your business details and WhatsApp number. Once verified via OTP, this app instance will be permanently locked to your business.
+          </p>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Full Name</label>
+            <input type="text" id="regName" value="Suresh Kumar" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">WhatsApp Mobile Number</label>
+            <div class="flex">
+              <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-slate-300 bg-slate-100 text-slate-500 text-sm font-semibold">+91</span>
+              <input type="tel" id="regPhone" value="9876543210" maxlength="10" class="w-full px-3 py-2 border border-slate-300 rounded-r-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+            <span class="text-[11px] text-slate-400 mt-0.5 block">OTP verification code will be sent to this WhatsApp number</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Business Name</label>
+            <input type="text" id="regBusiness" value="Sri Sai Auto Finance & Loans" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Primary Industry / Sector</label>
+            <select id="regIndustry" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="auto_finance" selected>Auto & Vehicle Finance (Two-Wheeler, Car, Used Vehicle Loans)</option>
+              <option value="fmcg">FMCG & Retail Distribution (Kirana, Supermarkets, Wholesale)</option>
+              <option value="coaching">Education & Coaching Institutes (JEE/NEET, Tuition, Skills)</option>
+              <option value="ai_tech">AI Development & Software Solutions (IT Services, Automation)</option>
+              <option value="real_estate">Real Estate & Land Development (Plots, Flats, Commercial)</option>
+            </select>
+          </div>
+
+          <button id="btnSendOtp" class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-sm shadow-md transition flex items-center justify-center space-x-2">
+            <span>Send WhatsApp OTP</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </div>
+
+        <!-- Step 2: OTP Verification Form -->
+        <div id="authStep2" class="hidden p-6 space-y-4">
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 mb-2">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+            </div>
+            <h3 class="text-base font-bold text-slate-800">Enter WhatsApp OTP</h3>
+            <p class="text-xs text-slate-500 mt-1">
+              We simulated sending a 6-digit verification code to <span id="otpTargetPhone" class="font-semibold text-slate-700">+91 9876543210</span>
+            </p>
+            <div class="mt-2 inline-block bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded text-xs font-mono font-bold">
+              Demo Test Code: <span id="demoOtpDisplay">749201</span>
+            </div>
+          </div>
+
+          <div class="flex justify-center space-x-2 my-4">
+            <input type="text" maxlength="6" id="otpInput" value="749201" class="text-center tracking-widest text-2xl font-mono font-bold w-48 py-2 border-2 border-blue-500 rounded-lg focus:outline-none">
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-500">
+            <span>Didn't receive code?</span>
+            <button id="btnResendOtp" class="text-blue-600 font-semibold hover:underline">Resend OTP</button>
+          </div>
+
+          <button id="btnVerifyOtp" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg text-sm shadow-md transition flex items-center justify-center space-x-2">
+            <span>Verify & Lock Client App</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ================= VIEW 1: LEAD SCRAPER & GEOGRAPHIC FILTER ================= -->
+    <div id="viewScraper" class="space-y-6">
+
+      <!-- Hero Header & Client Identity Bar -->
+      <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center space-x-2 bg-blue-500/20 border border-blue-400/30 rounded-full px-3 py-1 text-xs text-blue-200 mb-3">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>Targeting Engine: Andhra Pradesh, Telangana & Karnataka</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Mandal-Wise Lead Generation & Scraper
+            </h1>
+            <p class="text-sm text-slate-300 mt-1 max-w-2xl">
+              Target hyper-local prospects across specific mandals and districts. Scrapes verified business registries, public listings, and vehicle ownership interest data for instant WhatsApp outreach.
+            </p>
+          </div>
+
+          <!-- Quick Stats Widget -->
+          <div class="grid grid-cols-2 gap-3 bg-white/10 backdrop-blur-md p-3.5 rounded-xl border border-white/15 text-center min-w-[240px]">
+            <div>
+              <div class="text-2xl font-black text-white" id="statScrapedTotal">18</div>
+              <div class="text-[11px] text-slate-300 uppercase tracking-wide">Leads Scraped</div>
+            </div>
+            <div class="border-l border-white/20 pl-3">
+              <div class="text-2xl font-black text-emerald-400" id="statContactedTotal">12</div>
+              <div class="text-[11px] text-slate-300 uppercase tracking-wide">WhatsApp Sent</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONFIGURATION CARD: 3-TIER DRILL-DOWN + SECTOR SELECTOR -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+        
+        <div class="border-b border-slate-200 pb-4 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold">1</span>
+              <span>Select Territory & Target Mandals</span>
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">Filter by State, District, and specific Mandals/Taluks where you want loan or client leads.</p>
+          </div>
+          <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-medium border border-slate-200">
+            Current Focus: <span id="currentSelectionBadge" class="font-bold text-blue-600">Andhra Pradesh > Anantapur</span>
+          </span>
+        </div>
+
+        <!-- 3 Level Geographic Selectors -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- Level 1: State Selection -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1 flex items-center justify-between">
+              <span>Step 1: State</span>
+              <span class="text-[10px] text-slate-400 font-normal">3 States Supported</span>
+            </label>
+            <select id="selectState" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="Andhra Pradesh" selected>Andhra Pradesh</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Karnataka">Karnataka</option>
+            </select>
+          </div>
+
+          <!-- Level 2: District Selection -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1 flex items-center justify-between">
+              <span>Step 2: District</span>
+              <span id="districtCountBadge" class="text-[10px] text-slate-400 font-normal">7 Districts</span>
+            </label>
+            <select id="selectDistrict" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <!-- Level 3: Industry / Sector -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1 flex items-center justify-between">
+              <span>Step 3: Industry / Sector</span>
+              <span class="text-[10px] text-emerald-600 font-medium">Multi-Sector Enabled</span>
+            </label>
+            <select id="selectIndustry" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="auto_finance" selected>Auto & Vehicle Finance (Two-Wheeler, Car, Used Loans)</option>
+              <option value="fmcg">FMCG & Retail Distribution (Supermarkets, Wholesale, Kirana)</option>
+              <option value="coaching">Education & Coaching Institutes (IIT-JEE, NEET, Tuitions)</option>
+              <option value="ai_tech">AI Development & IT Services (Software, Apps, Tech Leads)</option>
+              <option value="real_estate">Real Estate & Land Development (Plots, Villas, Commercial)</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Mandal Checkboxes Area -->
+        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <span class="text-xs font-bold text-slate-700 uppercase">Step 4: Select Target Mandals / Localities</span>
+              <span class="text-xs text-slate-500 ml-2">Click to select multiple mandals</span>
+            </div>
+            <div class="space-x-2">
+              <button id="btnSelectAllMandals" class="text-xs text-blue-600 hover:text-blue-800 font-medium">Select All</button>
+              <span class="text-slate-300">|</span>
+              <button id="btnClearMandals" class="text-xs text-slate-500 hover:text-slate-700 font-medium">Clear</button>
+            </div>
+          </div>
+
+          <!-- Mandal Badges / Checkbox Grid -->
+          <div id="mandalGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+            <!-- Dynamically populated checkboxes -->
+          </div>
+
+          <div class="mt-3 pt-3 border-t border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+            <span>Selected Mandals for scraping: <strong id="selectedMandalCount" class="text-blue-600">3</strong></span>
+            <span class="text-slate-400">Estimated available leads in selected mandals: ~65 - 120 leads</span>
+          </div>
+        </div>
+
+        <!-- Scraping Parameters & Source Selectors -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          
+          <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <span class="text-xs font-semibold text-slate-700 block">Scraping Sources</span>
+            <div class="space-y-1 text-xs text-slate-600">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" checked class="rounded text-blue-600 focus:ring-0">
+                <span>Google Maps & Local Business Registries</span>
+              </label>
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" checked class="rounded text-blue-600 focus:ring-0">
+                <span>Two-Wheeler / Dealership Inquiries</span>
+              </label>
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" checked class="rounded text-blue-600 focus:ring-0">
+                <span>Public Commercial Registrations & MSME Portals</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <span class="text-xs font-semibold text-slate-700 block">Lead Filter Preference</span>
+            <div class="space-y-1 text-xs text-slate-600">
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="radio" name="leadPref" checked class="text-blue-600 focus:ring-0">
+                <span>Direct WhatsApp Phone Verified</span>
+              </label>
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="radio" name="leadPref" class="text-blue-600 focus:ring-0">
+                <span>High-Intent Inquiries (Recent 30 Days)</span>
+              </label>
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="radio" name="leadPref" class="text-blue-600 focus:ring-0">
+                <span>All Public Contact Entries</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="p-3 bg-blue-50 rounded-xl border border-blue-200 flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-bold text-blue-900 block mb-1">Instant Outreach Ready</span>
+              <p class="text-xs text-blue-700 leading-relaxed">
+                Scraped leads will be automatically enriched with customizable WhatsApp offer templates (cheaper interest rates, loan offers, FMCG supplies, or AI quotes).
+              </p>
+            </div>
+            <button id="btnStartScrape" class="mt-3 w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl text-sm shadow-md shadow-blue-500/20 transition flex items-center justify-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              <span>Scrape Leads for Selected Mandals</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Scraping Progress Simulator Area (Hidden by default) -->
+        <div id="scrapeProgressBox" class="hidden bg-slate-900 rounded-xl p-4 text-white space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <span class="flex items-center space-x-2 text-blue-400 font-mono">
+              <svg class="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+              <span id="scrapeStatusText">Connecting to Andhra Pradesh regional registries...</span>
+            </span>
+            <span id="scrapePercent" class="font-mono text-emerald-400 font-bold">45%</span>
+          </div>
+
+          <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+            <div id="scrapeProgressBar" class="bg-gradient-to-r from-blue-500 to-emerald-400 h-2 rounded-full transition-all duration-300" style="width: 45%"></div>
+          </div>
+
+          <div id="scrapeConsoleLogs" class="font-mono text-[11px] text-slate-400 bg-black/40 rounded p-2 max-h-24 overflow-y-auto space-y-0.5 scrollbar-thin">
+            <div>> Initializing Playwright scraper cluster...</div>
+            <div>> Targeting State: Andhra Pradesh | District: Anantapur</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================= VIEW 2: LEADS CRM TABLE ================= -->
+    <div id="viewLeads" class="hidden space-y-6">
+      
+      <!-- Action Toolbar -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        
+        <!-- Search & Filter inputs -->
+        <div class="flex flex-wrap items-center gap-2 flex-1">
+          <div class="relative flex-1 min-w-[200px]">
+            <input type="text" id="leadSearchInput" placeholder="Search by name, phone, or mandal..." class="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+
+          <select id="filterIndustrySelect" class="px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50 font-medium focus:outline-none">
+            <option value="all">All Sectors</option>
+            <option value="auto_finance">Auto & Vehicle Finance</option>
+            <option value="fmcg">FMCG & Retail</option>
+            <option value="coaching">Education & Coaching</option>
+            <option value="ai_tech">AI & Tech Development</option>
+          </select>
+
+          <select id="filterStatusSelect" class="px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50 font-medium focus:outline-none">
+            <option value="all">All Statuses</option>
+            <option value="New Lead">New Lead</option>
+            <option value="Contacted">WhatsApp Sent</option>
+            <option value="Interested">Interested / In-Discussion</option>
+            <option value="Closed">Approved / Closed</option>
+          </select>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="flex items-center space-x-2">
+          <button id="btnExportCsv" class="px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm flex items-center space-x-1.5 transition">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span>Export CSV</span>
+          </button>
+          <button id="btnOpenBulkSend" class="px-3.5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm shadow-emerald-600/20 flex items-center space-x-1.5 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            <span>WhatsApp Campaign</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Leads Table Container -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="overflow-x-auto scrollbar-thin">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th class="py-3 px-4">Candidate / Lead Name</th>
+                <th class="py-3 px-4">WhatsApp Contact</th>
+                <th class="py-3 px-4">Location (Mandal & District)</th>
+                <th class="py-3 px-4">Interest / Sector Category</th>
+                <th class="py-3 px-4">Scraped On</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Instant Action</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody" class="divide-y divide-slate-100 text-xs">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+        <div class="p-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-500 flex justify-between items-center">
+          <span>Showing <strong id="showingLeadsCount">18</strong> verified candidate leads</span>
+          <span class="text-[11px] text-slate-400">All numbers verified with +91 WhatsApp protocol</span>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ================= VIEW 3: WHATSAPP OUTREACH AUTOMATION ================= -->
+    <div id="viewCampaign" class="hidden space-y-6">
+
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+        
+        <div>
+          <h2 class="text-xl font-bold text-slate-900 flex items-center space-x-2">
+            <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            </span>
+            <span>WhatsApp Automated Outreach & Pitch Engine</span>
+          </h2>
+          <p class="text-xs text-slate-500 mt-1">
+            Automates personalized WhatsApp message dispatching to scraped leads. Automatically customizes terms for two-wheeler loans, car loans, FMCG supplies, or AI services.
+          </p>
+        </div>
+
+        <!-- 2 Column Layout: Template Editor & Live Preview -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Left: Campaign Settings & Template Editor -->
+          <div class="space-y-4">
+            
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Select Industry Pitch Template</label>
+              <select id="campaignTemplateSelect" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                <option value="auto_finance">Auto Finance (Low Interest Two-Wheeler / Car Loans)</option>
+                <option value="fmcg">FMCG Retail & Wholesale Distribution (Direct Supply & Margin)</option>
+                <option value="coaching">Education & Coaching Classes (Demo Class & Scholarships)</option>
+                <option value="ai_tech">AI Development & Software Solutions (App & Automation Demo)</option>
+              </select>
+            </div>
+
+            <!-- Dynamic Variables Pills -->
+            <div>
+              <span class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Insert Dynamic Personalization Tags</span>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" class="tag-btn text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md font-mono" data-tag="{{name}}">{{name}}</button>
+                <button type="button" class="tag-btn text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md font-mono" data-tag="{{mandal}}">{{mandal}}</button>
+                <button type="button" class="tag-btn text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md font-mono" data-tag="{{district}}">{{district}}</button>
+                <button type="button" class="tag-btn text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md font-mono" data-tag="{{business_name}}">{{business_name}}</button>
+                <button type="button" class="tag-btn text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md font-mono" data-tag="{{phone}}">{{phone}}</button>
+                <button type="button" class="tag-btn text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-md font-mono" data-tag="{{loan_offer}}">{{loan_offer}}</button>
+              </div>
+            </div>
+
+            <!-- Message Textarea -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Custom WhatsApp Pitch Message</label>
+              <textarea id="campaignMessageText" rows="6" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs font-mono leading-relaxed focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+            </div>
+
+            <!-- Sending Throttle & Anti-Ban Safeguards -->
+            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
+              <div class="font-bold flex items-center space-x-1.5">
+                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span>Meta WhatsApp Cloud API Compliance & Anti-Ban Guard</span>
+              </div>
+              <p class="text-[11px] leading-relaxed text-amber-800">
+                Messages are dispatched with smart interval jitter (3 to 6 seconds between contacts) to emulate human sending and comply with WhatsApp fair usage policies.
+              </p>
+            </div>
+
+            <div class="flex items-center space-x-3">
+              <button id="btnLaunchCampaign" class="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm shadow-md shadow-emerald-600/20 transition flex items-center justify-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                <span>Launch WhatsApp Broadcast to <span id="campaignQueueCount">18</span> Leads</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Right: WhatsApp Phone Chat Mockup -->
+          <div class="flex flex-col items-center justify-center bg-slate-100 rounded-2xl p-4 border border-slate-200">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Live Recipient Preview</span>
+            
+            <div class="w-full max-w-sm bg-[#0b141a] text-white rounded-[2rem] shadow-2xl overflow-hidden border-4 border-slate-700">
+              <!-- Phone Status Bar -->
+              <div class="bg-[#202c33] px-4 py-2 flex justify-between items-center text-[11px] text-slate-300">
+                <span class="font-bold">9:41 AM</span>
+                <div class="flex items-center space-x-1">
+                  <span>5G</span>
+                  <span>100%</span>
+                </div>
+              </div>
+
+              <!-- WhatsApp Chat Header -->
+              <div class="bg-[#202c33] px-4 py-3 flex items-center space-x-3 border-b border-[#374248]">
+                <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center font-bold text-white text-xs">
+                  RN
+                </div>
+                <div class="flex-1">
+                  <div class="font-bold text-sm text-slate-100" id="previewLeadName">Ramesh Naidu (Anantapur Urban)</div>
+                  <div class="text-[10px] text-emerald-400">Online • Auto Loan Prospect</div>
+                </div>
+              </div>
+
+              <!-- Chat Message Bubble Area -->
+              <div class="p-4 min-h-[220px] bg-[#0b141a] bg-opacity-95 flex flex-col justify-end space-y-2">
+                <div class="bg-[#005c4b] text-white text-xs rounded-xl rounded-tr-none p-3 shadow-md ml-6 space-y-1">
+                  <div id="whatsappPreviewBubble" class="leading-relaxed whitespace-pre-wrap">
+                    Hello Ramesh Naidu, greetings from Sri Sai Auto Finance! Are you planning to purchase a new or pre-owned two-wheeler or car in Anantapur Urban? We offer instant vehicle finance at 8.5% interest rate. Call +91 9876543210!
+                  </div>
+                  <div class="flex justify-end items-center space-x-1 text-[10px] text-slate-300">
+                    <span>9:42 AM</span>
+                    <span class="text-blue-400 font-bold">✓✓</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer -->
+              <div class="bg-[#202c33] p-3 text-center text-[10px] text-slate-400 border-t border-[#374248]">
+                Tap below in CRM table to test direct chat on WhatsApp Web
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Live Queue Progress Bar (When campaign is running) -->
+        <div id="campaignProgressCard" class="hidden bg-slate-900 text-white rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center text-xs">
+            <span class="flex items-center space-x-2 text-emerald-400 font-mono">
+              <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+              <span>Automated WhatsApp Broadcast in Progress...</span>
+            </span>
+            <span id="campaignProgressStat" class="font-mono text-emerald-400 font-bold">0 / 18 Sent</span>
+          </div>
+
+          <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+            <div id="campaignProgressBar" class="bg-emerald-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+
+          <div id="campaignLogList" class="font-mono text-[11px] text-slate-400 bg-black/40 rounded p-2 max-h-24 overflow-y-auto space-y-0.5 scrollbar-thin">
+            <div>> Starting dispatch queue...</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================= VIEW 4: ANALYTICS & DASHBOARD ================= -->
+    <div id="viewAnalytics" class="hidden space-y-6">
+
+      <!-- Top KPI Metric Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-xs font-semibold text-slate-500 uppercase">Total Scraped Leads</div>
+          <div class="text-2xl font-black text-slate-900 mt-2" id="kpiTotalLeads">18</div>
+          <div class="text-xs text-emerald-600 font-medium mt-1 flex items-center">
+            <span>+100% verified numbers</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-xs font-semibold text-slate-500 uppercase">WhatsApp Broadcasts</div>
+          <div class="text-2xl font-black text-blue-600 mt-2" id="kpiMessagesSent">12</div>
+          <div class="text-xs text-slate-500 font-medium mt-1">
+            <span>67% dispatch coverage</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-xs font-semibold text-slate-500 uppercase">Interested Inquiries</div>
+          <div class="text-2xl font-black text-emerald-600 mt-2" id="kpiInterestedLeads">5</div>
+          <div class="text-xs text-emerald-600 font-medium mt-1">
+            <span>41.6% conversion response</span>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-xs font-semibold text-slate-500 uppercase">Active Target Districts</div>
+          <div class="text-2xl font-black text-indigo-600 mt-2">3</div>
+          <div class="text-xs text-slate-500 font-medium mt-1">
+            <span>Anantapur, Kurnool, Bengaluru</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Graphical Breakdown Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Sector Distribution Card -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+          <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Leads By Sector / Industry</h3>
+          
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs font-medium mb-1">
+                <span>Auto & Two-Wheeler Finance</span>
+                <span class="font-bold text-slate-800">10 leads (55%)</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2">
+                <div class="bg-blue-600 h-2 rounded-full" style="width: 55%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-medium mb-1">
+                <span>FMCG & Retail Distribution</span>
+                <span class="font-bold text-slate-800">4 leads (22%)</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2">
+                <div class="bg-emerald-500 h-2 rounded-full" style="width: 22%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-medium mb-1">
+                <span>AI & Software Solutions</span>
+                <span class="font-bold text-slate-800">2 leads (11%)</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2">
+                <div class="bg-purple-600 h-2 rounded-full" style="width: 11%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-medium mb-1">
+                <span>Coaching & Education</span>
+                <span class="font-bold text-slate-800">2 leads (11%)</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2">
+                <div class="bg-amber-500 h-2 rounded-full" style="width: 11%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
+            Multi-sector capability allows you to generate and route leads across all B2B verticals seamlessly.
+          </div>
+        </div>
+
+        <!-- Mandal Breakdown Card -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+          <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Top Performing Mandals (Andhra Pradesh)</h3>
+          
+          <div class="space-y-3">
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl text-xs">
+              <div class="font-semibold text-slate-800">Anantapur Urban</div>
+              <div class="text-blue-600 font-bold">6 Leads • 4 WhatsApp Sent</div>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl text-xs">
+              <div class="font-semibold text-slate-800">Dharmavaram Mandal</div>
+              <div class="text-blue-600 font-bold">4 Leads • 3 WhatsApp Sent</div>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl text-xs">
+              <div class="font-semibold text-slate-800">Tadipatri Mandal</div>
+              <div class="text-blue-600 font-bold">3 Leads • 2 WhatsApp Sent</div>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl text-xs">
+              <div class="font-semibold text-slate-800">Kurnool Urban</div>
+              <div class="text-blue-600 font-bold">3 Leads • 2 WhatsApp Sent</div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
+            Hyper-local targeting delivers significantly higher call-back rates compared to state-wide generic ads.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================= VIEW 5: SAAS ARCHITECTURE & PRODUCTION GUIDE ================= -->
+    <div id="viewArchitecture" class="hidden space-y-6">
+
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Production SaaS Architecture & Technology Stack</h2>
+          <p class="text-xs text-slate-500 mt-1">
+            Complete blueprint to deploy this multi-tenant lead generation and WhatsApp outreach SaaS platform.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <h3 class="text-sm font-bold text-slate-800 flex items-center space-x-2">
+              <span class="w-6 h-6 rounded bg-blue-100 text-blue-600 flex items-center justify-center text-xs">1</span>
+              <span>Backend & Database Stack</span>
+            </h3>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li><strong>FastAPI (Python) or Node.js (NestJS)</strong>: High-speed asynchronous REST API server.</li>
+              <li><strong>PostgreSQL + PostGIS</strong>: Spatial database for state, district, and mandal polygon boundaries.</li>
+              <li><strong>Redis + Celery / BullMQ</strong>: Asynchronous task queue for long-running scraping jobs and message queuing.</li>
+              <li><strong>JWT + WhatsApp/SMS OTP (Twilio / MSG91)</strong>: Verifies phone numbers and locks each client tenant to their unique device.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <h3 class="text-sm font-bold text-slate-800 flex items-center space-x-2">
+              <span class="w-6 h-6 rounded bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs">2</span>
+              <span>Scraping Pipeline (Mandal-Wise)</span>
+            </h3>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li><strong>Playwright / Puppeteer Cluster</strong>: Headless browser workers running on residential proxy pools.</li>
+              <li><strong>Sources</strong>: Google Places API, Local B2B Directories (IndiaMART, Justdial, TradeIndia), MSME Udyam Registries.</li>
+              <li><strong>AI Entity Extraction</strong>: LLM extracts contact person names, WhatsApp valid numbers, and categorizes intent.</li>
+              <li><strong>Anti-Bot & Rate Limits</strong>: Automatic CAPTCHA solving with 2Captcha/BrightData rotation.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <h3 class="text-sm font-bold text-slate-800 flex items-center space-x-2">
+              <span class="w-6 h-6 rounded bg-purple-100 text-purple-600 flex items-center justify-center text-xs">3</span>
+              <span>WhatsApp Cloud API & Delivery</span>
+            </h3>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li><strong>Official Meta WhatsApp Business Cloud API</strong>: Prevents phone number banning using registered pre-approved HSM templates.</li>
+              <li><strong>Fallback Click-to-Chat (`wa.me`)</strong>: Allows instant 1-click personal WhatsApp web dispatch without API fee.</li>
+              <li><strong>Webhook Listener</strong>: Receives real-time delivery (`sent`, `delivered`, `read`) and prospect replies.</li>
+              <li><strong>DLT / TRAI Compliance</strong>: Follows Indian telecom regulations for commercial messaging.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <h3 class="text-sm font-bold text-slate-800 flex items-center space-x-2">
+              <span class="w-6 h-6 rounded bg-amber-100 text-amber-600 flex items-center justify-center text-xs">4</span>
+              <span>Multi-Tenant Client Security</span>
+            </h3>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li><strong>Tenant Isolation</strong>: Database row-level security (RLS) guarantees client data is never accessible to competitors.</li>
+              <li><strong>Device Binding & OTP Lock</strong>: Locks account session to client's registered mobile number.</li>
+              <li><strong>Role-Based Access</strong>: Sub-accounts for loan agents with restricted export permissions.</li>
+              <li><strong>Audit Logs</strong>: Tracks every scrape request and outreach campaign.</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL: INDIVIDUAL WHATSAPP CHAT / CALL POPUP -->
+  <div id="chatModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-100 p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-slate-900" id="chatModalLeadName">Ramesh Naidu</h3>
+          <span class="text-xs text-slate-500" id="chatModalLeadLocation">Anantapur Urban • Two-Wheeler Loan Lead</span>
+        </div>
+        <button id="btnCloseChatModal" class="text-slate-400 hover:text-slate-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">WhatsApp Recipient Number</label>
+        <div class="flex">
+          <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-slate-300 bg-slate-100 text-slate-600 text-xs font-mono font-bold">+91</span>
+          <input type="text" id="chatModalPhone" readonly class="w-full px-3 py-2 border border-slate-300 rounded-r-lg text-xs font-mono font-bold bg-slate-50 text-slate-800">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Personalized Offer Message</label>
+        <textarea id="chatModalMessage" rows="5" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono leading-relaxed focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+      </div>
+
+      <div class="flex items-center justify-end space-x-3 pt-2">
+        <button id="btnModalCancel" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-xs font-semibold hover:bg-slate-50">Cancel</button>
+        <a id="btnModalOpenWhatsapp" href="javascript:void(0)" target="_blank" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-md shadow-emerald-600/20 flex items-center space-x-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+          <span>Open in WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastBox" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 border border-slate-700">
+      <span class="w-2 h-2 rounded-full bg-emerald-400" id="toastDot"></span>
+      <span class="text-xs font-medium" id="toastMsg">Lead generation complete!</span>
+    </div>
+  </div>
+
+  <!-- APP STATE & LOGIC -->
+  <script>
+    // --- GEOGRAPHIC HIERARCHY DATA ---
+    const GEO_DATA = {
+      "Andhra Pradesh": {
+        "Anantapur": ["Anantapur Urban", "Anantapur Rural", "Dharmavaram", "Tadipatri", "Kadiri", "Guntakal", "Hindupur", "Kalyandurg", "Uravakonda", "Rayadurgam"],
+        "Kurnool": ["Kurnool Urban", "Kurnool Rural", "Nandyal", "Adoni", "Yemmiganur", "Dhone", "Allagadda", "Pattikonda"],
+        "Chittoor / Tirupati": ["Tirupati Urban", "Tirupati Rural", "Chittoor", "Madanapalle", "Srikalahasti", "Punganur", "Nagari", "Pileru"],
+        "Guntur": ["Guntur East", "Guntur West", "Tenali", "Mangalagiri", "Narasaraopet", "Sattenapalle", "Bapatla", "Repalle"],
+        "Krishna / NTR": ["Vijayawada Urban", "Vijayawada Rural", "Machilipatnam", "Gudivada", "Jaggaiahpeta", "Nuzvid", "Vuyyuru"],
+        "Visakhapatnam": ["Vizag Urban", "Gajuwaka", "Anakapalle", "Bheemunipatnam", "Pendurthi", "Madhurawada", "Narsipatnam"],
+        "YSR Kadapa": ["Kadapa Urban", "Proddatur", "Pulivendula", "Jammalamadugu", "Rayachoty", "Badvel", "Mydukur"]
+      },
+      "Telangana": {
+        "Hyderabad": ["Ameerpet", "Banjara Hills", "Charminar", "Secunderabad", "Khairatabad", "Jubilee Hills", "Kukatpally", "Dilsukhnagar", "Begumpet", "Mehdipatnam"],
+        "Rangareddy / Medchal": ["Gachibowli", "Madhapur", "Shamshabad", "Uppal", "Malkajgiri", "Kompally", "LB Nagar", "Serilingampally"],
+        "Warangal": ["Warangal Urban", "Hanamkonda", "Kazipet", "Narsampet", "Jangaon", "Parkal", "Mahabubabad"],
+        "Karimnagar": ["Karimnagar Urban", "Godavarikhani", "Ramagundam", "Jagtial", "Sircilla", "Huzurabad", "Peddapalli"],
+        "Nizamabad": ["Nizamabad Urban", "Armoor", "Bodhan", "Kamareddy", "Banswada"]
+      },
+      "Karnataka": {
+        "Bengaluru Urban": ["Whitefield", "Koramangala", "Indiranagar", "Jayanagar", "HSR Layout", "Electronic City", "Yelahanka", "Malleshwaram", "BTM Layout", "Marathahalli"],
+        "Mysuru": ["Mysuru North", "Mysuru South", "Hunsur", "Nanjangud", "KR Nagar", "Periyapatna", "T Narasipura"],
+        "Belagavi": ["Belagavi City", "Gokak", "Chikodi", "Bailhongal", "Athani", "Ramdurg"],
+        "Hubballi-Dharwad": ["Hubballi Urban", "Dharwad City", "Navalgund", "Kundgol", "Kalghatgi"]
+      }
+    };
+
+    // --- INDUSTRY PRESETS & WHATSAPP TEMPLATES ---
+    const INDUSTRY_TEMPLATES = {
+      "auto_finance": {
+        name: "Auto & Vehicle Finance",
+        defaultText: "Hello {{name}}, greetings from {{business_name}}! Are you planning to purchase a new or pre-owned two-wheeler, car, or commercial vehicle in {{mandal}}? We provide fast-approval vehicle loans at lowest interest rates (starting 8.5% p.a.) with zero hidden charges. If interested, call us at {{phone}} or reply to this message directly!"
+      },
+      "fmcg": {
+        name: "FMCG & Retail Distribution",
+        defaultText: "Namaste {{name}}, this is {{business_name}}. We are expanding our FMCG wholesale distribution in {{mandal}}, {{district}}. We provide direct manufacturer wholesale supply for packaged goods & provision stores with up to 18% margins. Let us connect at {{phone}} or reply here for catalog."
+      },
+      "coaching": {
+        name: "Education & Coaching Institutes",
+        defaultText: "Hi {{name}}, {{business_name}} is launching new weekend & evening batches in {{mandal}} for competitive exam preparation and tuition. Special scholarship fee waivers are available this week. Call us at {{phone}} or reply YES for free demo registration!"
+      },
+      "ai_tech": {
+        name: "AI Development & Software Solutions",
+        defaultText: "Hello {{name}}, this is {{business_name}} (AI & Custom Software Development). We specialize in custom AI apps, lead generation engines, and business automation for growing enterprises in {{district}}. Would you be open for a brief 10-minute demo this week? Reach me directly at {{phone}}."
+      },
+      "real_estate": {
+        name: "Real Estate & Land Development",
+        defaultText: "Hello {{name}}, prime DTCP/RERA-approved open plots & residential properties are now available in {{mandal}} through {{business_name}}. 100% bank loan facility available. Call {{phone}} to schedule a free site visit!"
+      }
+    };
+
+    // --- INITIAL SEED LEADS DATA ---
+    let leadsData = [
+      { id: "LD-101", name: "Ramesh Naidu", phone: "9440128471", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", industry: "auto_finance", interest: "Two-Wheeler Loan (Hero Splendor)", date: "Today, 07:45 AM", status: "Contacted" },
+      { id: "LD-102", name: "Venkat Reddy", phone: "9848193820", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", industry: "auto_finance", interest: "Used Car Refinancing (Swift)", date: "Today, 08:10 AM", status: "Interested" },
+      { id: "LD-103", name: "K. Srinivasulu", phone: "8554228910", state: "Andhra Pradesh", district: "Anantapur", mandal: "Tadipatri", industry: "auto_finance", interest: "Commercial Auto Loan (Ape Piaggio)", date: "Today, 08:20 AM", status: "Contacted" },
+      { id: "LD-104", name: "Lakshmi Narayana", phone: "9490334812", state: "Andhra Pradesh", district: "Anantapur", mandal: "Kadiri", industry: "auto_finance", interest: "New Bike Loan (Honda Activa)", date: "Yesterday", status: "New Lead" },
+      { id: "LD-105", name: "B. Mallikarjuna", phone: "9989445109", state: "Andhra Pradesh", district: "Anantapur", mandal: "Hindupur", industry: "auto_finance", interest: "Tractor / Agri Vehicle Finance", date: "Yesterday", status: "Interested" },
+      { id: "LD-106", name: "Ravi Teja Chowdary", phone: "9121884729", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", industry: "auto_finance", interest: "Pre-Owned Car Loan (i20)", date: "Yesterday", status: "Contacted" },
+      { id: "LD-107", name: "S. Anjaneyulu", phone: "8554291840", state: "Andhra Pradesh", district: "Anantapur", mandal: "Guntakal", industry: "auto_finance", interest: "Two-Wheeler Loan (Bajaj Pulsar)", date: "2 days ago", status: "New Lead" },
+      { id: "LD-108", name: "Mahesh Babu V.", phone: "9441209384", state: "Andhra Pradesh", district: "Kurnool", mandal: "Kurnool Urban", industry: "auto_finance", interest: "Used Car Loan (Innova)", date: "2 days ago", status: "Contacted" },
+      { id: "LD-109", name: "G. Chandrasekhar", phone: "9849112098", state: "Andhra Pradesh", district: "Kurnool", mandal: "Nandyal", industry: "auto_finance", interest: "Auto Rickshaw Finance", date: "2 days ago", status: "Interested" },
+      { id: "LD-110", name: "Prabhakar Rao", phone: "9177402918", state: "Andhra Pradesh", district: "Kurnool", mandal: "Adoni", industry: "auto_finance", interest: "Two-Wheeler Loan (TVS Jupiter)", date: "3 days ago", status: "Contacted" },
+      
+      // FMCG Leads
+      { id: "LD-111", name: "Balaji Kirana & Provisions", phone: "9440819201", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", industry: "fmcg", interest: "Wholesale Grocery Stockist Inquiry", date: "Today, 08:30 AM", status: "New Lead" },
+      { id: "LD-112", name: "Sri Rama Supermarket", phone: "9848220194", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", industry: "fmcg", interest: "Beverages & Snacks Direct Supply", date: "Yesterday", status: "Contacted" },
+      { id: "LD-113", name: "Sri Venkateswara Traders", phone: "8554249102", state: "Andhra Pradesh", district: "Anantapur", mandal: "Tadipatri", industry: "fmcg", interest: "Oil & Grain Distribution Agency", date: "2 days ago", status: "Interested" },
+      { id: "LD-114", name: "Kurnool Wholesale Mart", phone: "9491002938", state: "Andhra Pradesh", district: "Kurnool", mandal: "Kurnool Urban", industry: "fmcg", interest: "Retail Bulk Supply Requirement", date: "3 days ago", status: "Contacted" },
+
+      // AI & Software Leads
+      { id: "LD-115", name: "Apex Tech Labs", phone: "9885019284", state: "Karnataka", district: "Bengaluru Urban", mandal: "Whitefield", industry: "ai_tech", interest: "AI Automation & Chatbot Client", date: "Today, 08:05 AM", status: "New Lead" },
+      { id: "LD-116", name: "Deccan Digital Solutions", phone: "9949112948", state: "Telangana", district: "Hyderabad", mandal: "Ameerpet", industry: "ai_tech", interest: "Custom CRM & Lead Engine Inquiry", date: "Yesterday", status: "Interested" },
+
+      // Coaching Leads
+      { id: "LD-117", name: "Narayana Talent Academy", phone: "9440992819", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", industry: "coaching", interest: "IIT-JEE Foundation Batches", date: "Yesterday", status: "Contacted" },
+      { id: "LD-118", name: "Vikas Spoken English Center", phone: "9848772019", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", industry: "coaching", interest: "Student Lead Generation", date: "3 days ago", status: "Contacted" }
+    ];
+
+    // --- USER / CLIENT STATE ---
+    let clientSession = {
+      name: "Suresh Kumar",
+      phone: "9876543210",
+      businessName: "Sri Sai Auto Finance & Loans",
+      industry: "auto_finance",
+      isVerified: true
+    };
+
+    // Try loading from localStorage
+    try {
+      const savedUser = localStorage.getItem("leadsprint_user");
+      if (savedUser) {
+        clientSession = JSON.parse(savedUser);
+      }
+    } catch(e) {
+      console.warn("Storage access restricted");
+    }
+
+    // --- DOM REFERENCES ---
+    const authModal = document.getElementById("authModal");
+    const authStep1 = document.getElementById("authStep1");
+    const authStep2 = document.getElementById("authStep2");
+    const regName = document.getElementById("regName");
+    const regPhone = document.getElementById("regPhone");
+    const regBusiness = document.getElementById("regBusiness");
+    const regIndustry = document.getElementById("regIndustry");
+    const btnSendOtp = document.getElementById("btnSendOtp");
+    const otpInput = document.getElementById("otpInput");
+    const btnVerifyOtp = document.getElementById("btnVerifyOtp");
+    const btnResendOtp = document.getElementById("btnResendOtp");
+    const btnSwitchAccount = document.getElementById("btnSwitchAccount");
+
+    const selectState = document.getElementById("selectState");
+    const selectDistrict = document.getElementById("selectDistrict");
+    const selectIndustry = document.getElementById("selectIndustry");
+    const mandalGrid = document.getElementById("mandalGrid");
+    const btnSelectAllMandals = document.getElementById("btnSelectAllMandals");
+    const btnClearMandals = document.getElementById("btnClearMandals");
+    const selectedMandalCount = document.getElementById("selectedMandalCount");
+    const btnStartScrape = document.getElementById("btnStartScrape");
+    const scrapeProgressBox = document.getElementById("scrapeProgressBox");
+    const scrapeProgressBar = document.getElementById("scrapeProgressBar");
+    const scrapePercent = document.getElementById("scrapePercent");
+    const scrapeStatusText = document.getElementById("scrapeStatusText");
+    const scrapeConsoleLogs = document.getElementById("scrapeConsoleLogs");
+
+    const leadsTableBody = document.getElementById("leadsTableBody");
+    const leadSearchInput = document.getElementById("leadSearchInput");
+    const filterIndustrySelect = document.getElementById("filterIndustrySelect");
+    const filterStatusSelect = document.getElementById("filterStatusSelect");
+    const btnExportCsv = document.getElementById("btnExportCsv");
+    const btnOpenBulkSend = document.getElementById("btnOpenBulkSend");
+
+    const campaignTemplateSelect = document.getElementById("campaignTemplateSelect");
+    const campaignMessageText = document.getElementById("campaignMessageText");
+    const whatsappPreviewBubble = document.getElementById("whatsappPreviewBubble");
+    const btnLaunchCampaign = document.getElementById("btnLaunchCampaign");
+    const campaignProgressCard = document.getElementById("campaignProgressCard");
+    const campaignProgressBar = document.getElementById("campaignProgressBar");
+    const campaignProgressStat = document.getElementById("campaignProgressStat");
+    const campaignLogList = document.getElementById("campaignLogList");
+
+    const chatModal = document.getElementById("chatModal");
+    const btnCloseChatModal = document.getElementById("btnCloseChatModal");
+    const btnModalCancel = document.getElementById("btnModalCancel");
+    const btnModalOpenWhatsapp = document.getElementById("btnModalOpenWhatsapp");
+    const chatModalLeadName = document.getElementById("chatModalLeadName");
+    const chatModalLeadLocation = document.getElementById("chatModalLeadLocation");
+    const chatModalPhone = document.getElementById("chatModalPhone");
+    const chatModalMessage = document.getElementById("chatModalMessage");
+
+    const toastBox = document.getElementById("toastBox");
+    const toastMsg = document.getElementById("toastMsg");
+
+    // --- HELPER: TOAST NOTIFICATION ---
+    function showToast(message, isSuccess = true) {
+      toastMsg.textContent = message;
+      document.getElementById("toastDot").className = isSuccess ? "w-2 h-2 rounded-full bg-emerald-400" : "w-2 h-2 rounded-full bg-amber-400";
+      toastBox.classList.remove("translate-y-20", "opacity-0");
+      setTimeout(() => {
+        toastBox.classList.add("translate-y-20", "opacity-0");
+      }, 3500);
+    }
+
+    // --- UPDATE CLIENT UI & LOCK BAR ---
+    function updateClientProfileUI() {
+      document.getElementById("headerUserName").textContent = clientSession.name;
+      document.getElementById("headerUserBusiness").textContent = clientSession.businessName;
+      document.getElementById("lockBarDetails").textContent = `${clientSession.businessName} (+91 ${clientSession.phone})`;
+      document.getElementById("lockBarState").textContent = selectState.value;
+      document.getElementById("currentSelectionBadge").textContent = `${selectState.value} > ${selectDistrict.value}`;
+    }
+
+    // --- INITIALIZE GEOGRAPHY DROPDOWNS ---
+    function populateDistricts() {
+      const state = selectState.value;
+      const districts = Object.keys(GEO_DATA[state] || {});
+      selectDistrict.innerHTML = "";
+      districts.forEach(dist => {
+        const opt = document.createElement("option");
+        opt.value = dist;
+        opt.textContent = dist;
+        selectDistrict.appendChild(opt);
+      });
+      document.getElementById("districtCountBadge").textContent = `${districts.length} Districts`;
+      populateMandals();
+    }
+
+    function populateMandals() {
+      const state = selectState.value;
+      const district = selectDistrict.value;
+      const mandals = (GEO_DATA[state] && GEO_DATA[state][district]) || [];
+      mandalGrid.innerHTML = "";
+
+      mandals.forEach((mandal, index) => {
+        const label = document.createElement("label");
+        label.className = "flex items-center space-x-2 text-xs bg-white p-2 rounded-lg border border-slate-200 cursor-pointer hover:border-blue-300 transition";
+        const checked = index < 3 ? "checked" : ""; // Default first 3 checked
+        label.innerHTML = `
+          <input type="checkbox" value="${mandal}" ${checked} class="mandal-check rounded text-blue-600 focus:ring-0">
+          <span class="truncate font-medium text-slate-700">${mandal}</span>
+        `;
+        mandalGrid.appendChild(label);
+      });
+
+      updateSelectedMandalCount();
+      updateClientProfileUI();
+
+      // Attach change listeners to all mandal checkboxes
+      document.querySelectorAll(".mandal-check").forEach(cb => {
+        cb.addEventListener("change", updateSelectedMandalCount);
+      });
+    }
+
+    function updateSelectedMandalCount() {
+      const selected = document.querySelectorAll(".mandal-check:checked");
+      selectedMandalCount.textContent = selected.length;
+      document.getElementById("currentSelectionBadge").textContent = `${selectState.value} > ${selectDistrict.value} (${selected.length} mandals)`;
+    }
+
+    selectState.addEventListener("change", populateDistricts);
+    selectDistrict.addEventListener("change", populateMandals);
+    selectIndustry.addEventListener("change", () => {
+      syncCampaignTemplate(selectIndustry.value);
+    });
+
+    btnSelectAllMandals.addEventListener("click", () => {
+      document.querySelectorAll(".mandal-check").forEach(cb => cb.checked = true);
+      updateSelectedMandalCount();
+    });
+
+    btnClearMandals.addEventListener("click", () => {
+      document.querySelectorAll(".mandal-check").forEach(cb => cb.checked = false);
+      updateSelectedMandalCount();
+    });
+
+    // --- NAVIGATION TABS LOGIC ---
+    const views = {
+      scraper: document.getElementById("viewScraper"),
+      leads: document.getElementById("viewLeads"),
+      campaign: document.getElementById("viewCampaign"),
+      analytics: document.getElementById("viewAnalytics"),
+      architecture: document.getElementById("viewArchitecture")
+    };
+
+    const tabs = {
+      scraper: document.getElementById("navTabScraper"),
+      leads: document.getElementById("navTabLeads"),
+      campaign: document.getElementById("navTabCampaign"),
+      analytics: document.getElementById("navTabAnalytics"),
+      architecture: document.getElementById("navTabArchitecture")
+    };
+
+    function switchView(viewName) {
+      Object.keys(views).forEach(key => {
+        if (key === viewName) {
+          views[key].classList.remove("hidden");
+          tabs[key].className = "nav-tab px-3 py-2 text-sm font-medium rounded-lg text-blue-600 bg-blue-50 border border-blue-200/60 flex items-center space-x-1.5";
+        } else {
+          views[key].classList.add("hidden");
+          tabs[key].className = "nav-tab px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1.5";
+        }
+      });
+      document.getElementById("mobileMenu").classList.add("hidden");
+    }
+
+    tabs.scraper.addEventListener("click", () => switchView("scraper"));
+    tabs.leads.addEventListener("click", () => switchView("leads"));
+    tabs.campaign.addEventListener("click", () => switchView("campaign"));
+    tabs.analytics.addEventListener("click", () => switchView("analytics"));
+    tabs.architecture.addEventListener("click", () => switchView("architecture"));
+
+    document.getElementById("mTabScraper").addEventListener("click", () => switchView("scraper"));
+    document.getElementById("mTabLeads").addEventListener("click", () => switchView("leads"));
+    document.getElementById("mTabCampaign").addEventListener("click", () => switchView("campaign"));
+    document.getElementById("mTabAnalytics").addEventListener("click", () => switchView("analytics"));
+    document.getElementById("mTabArchitecture").addEventListener("click", () => switchView("architecture"));
+
+    document.getElementById("btnMobileMenu").addEventListener("click", () => {
+      document.getElementById("mobileMenu").classList.toggle("hidden");
+    });
+
+    // --- AUTHENTICATION & OTP LOCK FLOW ---
+    btnSwitchAccount.addEventListener("click", () => {
+      authModal.classList.remove("hidden");
+      authStep1.classList.remove("hidden");
+      authStep2.classList.add("hidden");
+    });
+
+    btnSendOtp.addEventListener("click", () => {
+      const name = regName.value.trim();
+      const phone = regPhone.value.trim();
+      const bName = regBusiness.value.trim();
+      if (!name || phone.length < 10 || !bName) {
+        showToast("Please enter valid name, 10-digit WhatsApp number and business name", false);
+        return;
+      }
+      document.getElementById("otpTargetPhone").textContent = `+91 ${phone}`;
+      authStep1.classList.add("hidden");
+      authStep2.classList.remove("hidden");
+      showToast(`OTP Code 749201 dispatched to WhatsApp (+91 ${phone})`);
+    });
+
+    btnResendOtp.addEventListener("click", () => {
+      showToast("OTP code resent to your WhatsApp number: 749201");
+    });
+
+    btnVerifyOtp.addEventListener("click", () => {
+      const code = otpInput.value.trim();
+      if (code.length !== 6) {
+        showToast("Please enter a valid 6-digit OTP code", false);
+        return;
+      }
+
+      clientSession = {
+        name: regName.value.trim(),
+        phone: regPhone.value.trim(),
+        businessName: regBusiness.value.trim(),
+        industry: regIndustry.value,
+        isVerified: true
+      };
+
+      try {
+        localStorage.setItem("leadsprint_user", JSON.stringify(clientSession));
+      } catch(e) {}
+
+      authModal.classList.add("hidden");
+      selectIndustry.value = clientSession.industry;
+      syncCampaignTemplate(clientSession.industry);
+      updateClientProfileUI();
+      showToast("App Successfully Verified & Locked to your Business!");
+    });
+
+    // --- SCRAPING SIMULATION ENGINE ---
+    const FIRST_NAMES = ["Ramesh", "Venkat", "Srinivas", "Lakshmi", "Mallikarjuna", "Anjaneyulu", "Ravi", "Mahesh", "Chandrasekhar", "Prabhakar", "Kalyan", "Narasimha", "Subba Rao", "Praveen", "Kiran", "Sridhar", "Bhaskar", "Gopala Krishna", "Sudhakar"];
+    const SURNAMES = ["Naidu", "Reddy", "Chowdary", "Sharma", "Babu", "Rao", "Prasad", "Varma", "Goud", "Shetty", "Swamy", "Achari", "Patil"];
+
+    btnStartScrape.addEventListener("click", () => {
+      const checkedMandals = Array.from(document.querySelectorAll(".mandal-check:checked")).map(cb => cb.value);
+      if (checkedMandals.length === 0) {
+        showToast("Please select at least one mandal to scrape", false);
+        return;
+      }
+
+      btnStartScrape.disabled = true;
+      btnStartScrape.classList.add("opacity-60", "cursor-not-allowed");
+      scrapeProgressBox.classList.remove("hidden");
+      scrapeProgressBar.style.width = "10%";
+      scrapePercent.textContent = "10%";
+      scrapeStatusText.textContent = `Connecting to Google Places & ${selectState.value} Business Directories...`;
+      scrapeConsoleLogs.innerHTML = `<div>> Initializing scraping job for ${selectState.value} > ${selectDistrict.value}...</div>`;
+
+      let progress = 10;
+      const interval = setInterval(() => {
+        progress += 18;
+        if (progress > 100) progress = 100;
+        scrapeProgressBar.style.width = progress + "%";
+        scrapePercent.textContent = progress + "%";
+
+        if (progress === 28) {
+          scrapeStatusText.textContent = `Targeting ${checkedMandals.length} Mandals (${checkedMandals.slice(0, 3).join(", ")})...`;
+          scrapeConsoleLogs.innerHTML += `<div>> Queried mandal geocodes: ${checkedMandals.join(", ")}</div>`;
+        } else if (progress === 46) {
+          scrapeStatusText.textContent = `Filtering by sector: ${INDUSTRY_TEMPLATES[selectIndustry.value].name}...`;
+          scrapeConsoleLogs.innerHTML += `<div>> Extracted 14 business registries & individual inquiries...</div>`;
+        } else if (progress === 82) {
+          scrapeStatusText.textContent = `Verifying WhatsApp active accounts & sanitizing contact phone numbers...`;
+          scrapeConsoleLogs.innerHTML += `<div>> Verified +91 WhatsApp account connectivity...</div>`;
+        } else if (progress >= 100) {
+          clearInterval(interval);
+          completeScrape(checkedMandals);
+        }
+      }, 450);
+    });
+
+    function completeScrape(mandals) {
+      const state = selectState.value;
+      const district = selectDistrict.value;
+      const industry = selectIndustry.value;
+      const count = Math.floor(Math.random() * 5) + 6; // 6 to 10 new leads
+      const newLeads = [];
+
+      for (let i = 0; i < count; i++) {
+        const fName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
+        const sName = SURNAMES[Math.floor(Math.random() * SURNAMES.length)];
+        const fullName = `${fName} ${sName}`;
+        const mandal = mandals[Math.floor(Math.random() * mandals.length)];
+        const phone = "9" + (Math.floor(Math.random() * 800000000) + 100000000);
+        
+        let interest = "";
+        if (industry === "auto_finance") {
+          const loanTypes = ["Two-Wheeler Loan (Activa/Pulsar)", "Used Car Loan (Dzire/Swift)", "Auto Rickshaw Commercial Finance", "Used Tractor Refinancing", "New Bike Loan (Hero)"];
+          interest = loanTypes[Math.floor(Math.random() * loanTypes.length)];
+        } else if (industry === "fmcg") {
+          interest = "Wholesale Kirana / Supermarket Provision Stock";
+        } else if (industry === "coaching") {
+          interest = "Student Coaching / Tuition Inquiry";
+        } else if (industry === "ai_tech") {
+          interest = "Custom AI Workflow & Business Automation Lead";
+        } else {
+          interest = "Property / Plot Buying Inquiry";
+        }
+
+        newLeads.push({
+          id: "LD-" + (leadsData.length + 101 + i),
+          name: fullName,
+          phone: phone,
+          state: state,
+          district: district,
+          mandal: mandal,
+          industry: industry,
+          interest: interest,
+          date: "Just Now",
+          status: "New Lead"
+        });
+      }
+
+      leadsData = [...newLeads, ...leadsData];
+      renderLeadsTable();
+      updateStats();
+
+      scrapeStatusText.textContent = `Scrape Finished! Added ${newLeads.length} genuine leads.`;
+      scrapeConsoleLogs.innerHTML += `<div class="text-emerald-400 font-bold">> Success: ${newLeads.length} leads saved to CRM!</div>`;
+      btnStartScrape.disabled = false;
+      btnStartScrape.classList.remove("opacity-60", "cursor-not-allowed");
+
+      showToast(`Scraped ${newLeads.length} new verified leads in ${district}!`);
+      setTimeout(() => {
+        scrapeProgressBox.classList.add("hidden");
+        switchView("leads");
+      }, 1200);
+    }
+
+    // --- LEADS CRM TABLE RENDERING ---
+    function renderLeadsTable() {
+      const searchTerm = leadSearchInput.value.toLowerCase().trim();
+      const industryFilter = filterIndustrySelect.value;
+      const statusFilter = filterStatusSelect.value;
+
+      const filtered = leadsData.filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(searchTerm) ||
+                              item.phone.includes(searchTerm) ||
+                              item.mandal.toLowerCase().includes(searchTerm) ||
+                              item.district.toLowerCase().includes(searchTerm);
+        const matchesIndustry = industryFilter === "all" || item.industry === industryFilter;
+        const matchesStatus = statusFilter === "all" || item.status === statusFilter;
+        return matchesSearch && matchesIndustry && matchesStatus;
+      });
+
+      leadsTableBody.innerHTML = "";
+
+      if (filtered.length === 0) {
+        leadsTableBody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-8 text-center text-slate-400">
+              No leads match your filter criteria. Try clearing search or scrape new mandals.
+            </td>
+          </tr>
+        `;
+      } else {
+        filtered.forEach(lead => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-slate-50 transition";
+
+          let statusBadgeClass = "bg-slate-100 text-slate-700";
+          if (lead.status === "New Lead") statusBadgeClass = "bg-blue-50 text-blue-700 border border-blue-200";
+          else if (lead.status === "Contacted") statusBadgeClass = "bg-emerald-50 text-emerald-700 border border-emerald-200";
+          else if (lead.status === "Interested") statusBadgeClass = "bg-purple-50 text-purple-700 border border-purple-200 font-bold";
+          else if (lead.status === "Closed") statusBadgeClass = "bg-slate-900 text-white font-bold";
+
+          tr.innerHTML = `
+            <td class="py-3 px-4 font-semibold text-slate-900">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-[10px] font-bold">${lead.name.charAt(0)}</span>
+                <span>${lead.name}</span>
+              </div>
+            </td>
+            <td class="py-3 px-4 font-mono font-medium text-slate-700">
+              <div class="flex items-center space-x-1.5">
+                <span class="text-emerald-600 font-bold text-xs">WA:</span>
+                <span>+91 ${lead.phone}</span>
+              </div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="font-medium text-slate-800">${lead.mandal}</span>, <span class="text-slate-500">${lead.district}</span>
+            </td>
+            <td class="py-3 px-4">
+              <span class="inline-block px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700">${lead.interest}</span>
+            </td>
+            <td class="py-3 px-4 text-slate-400 text-[11px]">${lead.date}</td>
+            <td class="py-3 px-4">
+              <select class="lead-status-select text-[11px] font-semibold rounded px-2 py-1 focus:outline-none ${statusBadgeClass}" data-id="${lead.id}">
+                <option value="New Lead" ${lead.status === "New Lead" ? "selected" : ""}>New Lead</option>
+                <option value="Contacted" ${lead.status === "Contacted" ? "selected" : ""}>WhatsApp Sent</option>
+                <option value="Interested" ${lead.status === "Interested" ? "selected" : ""}>Interested</option>
+                <option value="Closed" ${lead.status === "Closed" ? "selected" : ""}>Closed / Won</option>
+              </select>
+            </td>
+            <td class="py-3 px-4 text-right space-x-1">
+              <button class="btn-direct-chat px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-lg text-[11px] font-bold inline-flex items-center space-x-1 shadow-sm" data-id="${lead.id}">
+                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                <span>WhatsApp</span>
+              </button>
+            </td>
+          `;
+          leadsTableBody.appendChild(tr);
+        });
+      }
+
+      document.getElementById("showingLeadsCount").textContent = filtered.length;
+      document.getElementById("leadsNavCount").textContent = leadsData.length;
+      document.getElementById("campaignQueueCount").textContent = leadsData.length;
+
+      // Event handlers for status selects
+      document.querySelectorAll(".lead-status-select").forEach(sel => {
+        sel.addEventListener("change", (e) => {
+          const leadId = e.target.getAttribute("data-id");
+          const target = leadsData.find(l => l.id === leadId);
+          if (target) {
+            target.status = e.target.value;
+            renderLeadsTable();
+            updateStats();
+            showToast(`Status updated for ${target.name}: ${target.status}`);
+          }
+        });
+      });
+
+      // Event handlers for direct chat
+      document.querySelectorAll(".btn-direct-chat").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const leadId = btn.getAttribute("data-id");
+          openSingleChatModal(leadId);
+        });
+      });
+    }
+
+    leadSearchInput.addEventListener("input", renderLeadsTable);
+    filterIndustrySelect.addEventListener("change", renderLeadsTable);
+    filterStatusSelect.addEventListener("change", renderLeadsTable);
+
+    // --- CSV EXPORT LOGIC ---
+    btnExportCsv.addEventListener("click", () => {
+      let csvContent = "Lead_ID,Candidate_Name,WhatsApp_Number,State,District,Mandal,Sector,Interest_Category,Status,Scraped_Date\n";
+      leadsData.forEach(l => {
+        csvContent += `"${l.id}","${l.name}","+91${l.phone}","${l.state}","${l.district}","${l.mandal}","${l.industry}","${l.interest}","${l.status}","${l.date}"\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `LeadSprint_Leads_${clientSession.businessName.replace(/\s+/g, "_")}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("CSV file generated and downloaded successfully!");
+    });
+
+    btnOpenBulkSend.addEventListener("click", () => {
+      switchView("campaign");
+    });
+
+    // --- WHATSAPP CAMPAIGN & TEMPLATE SYSTEM ---
+    function syncCampaignTemplate(industryKey) {
+      const tmpl = INDUSTRY_TEMPLATES[industryKey] || INDUSTRY_TEMPLATES["auto_finance"];
+      campaignTemplateSelect.value = industryKey;
+      campaignMessageText.value = tmpl.defaultText;
+      updateWhatsappPreview();
+    }
+
+    function updateWhatsappPreview() {
+      let msg = campaignMessageText.value;
+      const sampleLead = leadsData[0] || { name: "Ramesh Naidu", mandal: "Anantapur Urban", district: "Anantapur", interest: "Two-Wheeler Loan" };
+      
+      msg = msg.replace(/{{name}}/g, sampleLead.name)
+               .replace(/{{mandal}}/g, sampleLead.mandal)
+               .replace(/{{district}}/g, sampleLead.district)
+               .replace(/{{business_name}}/g, clientSession.businessName)
+               .replace(/{{phone}}/g, `+91 ${clientSession.phone}`)
+               .replace(/{{loan_offer}}/g, "instant two-wheeler & car loan at 8.5% interest");
+
+      whatsappPreviewBubble.textContent = msg;
+      document.getElementById("previewLeadName").textContent = `${sampleLead.name} (${sampleLead.mandal})`;
+    }
+
+    campaignTemplateSelect.addEventListener("change", () => {
+      syncCampaignTemplate(campaignTemplateSelect.value);
+    });
+
+    campaignMessageText.addEventListener("input", updateWhatsappPreview);
+
+    // Dynamic Tag insertion buttons
+    document.querySelectorAll(".tag-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tag = btn.getAttribute("data-tag");
+        campaignMessageText.value += " " + tag;
+        updateWhatsappPreview();
+      });
+    });
+
+    // --- BULK BROADCAST SIMULATION ---
+    btnLaunchCampaign.addEventListener("click", () => {
+      btnLaunchCampaign.disabled = true;
+      btnLaunchCampaign.classList.add("opacity-60", "cursor-not-allowed");
+      campaignProgressCard.classList.remove("hidden");
+      campaignProgressBar.style.width = "5%";
+      campaignProgressStat.textContent = `0 / ${leadsData.length} Sent`;
+      campaignLogList.innerHTML = `<div>> Connecting to WhatsApp Cloud API gateway...</div>`;
+
+      let sentCount = 0;
+      const total = leadsData.length;
+
+      const interval = setInterval(() => {
+        if (sentCount < total) {
+          const lead = leadsData[sentCount];
+          lead.status = "Contacted";
+          sentCount++;
+
+          const pct = Math.floor((sentCount / total) * 100);
+          campaignProgressBar.style.width = pct + "%";
+          campaignProgressStat.textContent = `${sentCount} / ${total} Dispatched`;
+          campaignLogList.innerHTML += `<div>> Dispatched WhatsApp offer to ${lead.name} (+91 ${lead.phone}) [${lead.mandal}]</div>`;
+          campaignLogList.scrollTop = campaignLogList.scrollHeight;
+        } else {
+          clearInterval(interval);
+          btnLaunchCampaign.disabled = false;
+          btnLaunchCampaign.classList.remove("opacity-60", "cursor-not-allowed");
+          campaignLogList.innerHTML += `<div class="text-emerald-400 font-bold">> Broadcast completed successfully! ${total} messages sent.</div>`;
+          renderLeadsTable();
+          updateStats();
+          showToast(`WhatsApp Campaign finished! Sent to ${total} leads.`);
+        }
+      }, 350);
+    });
+
+    // --- INDIVIDUAL CHAT MODAL LOGIC ---
+    function openSingleChatModal(leadId) {
+      const lead = leadsData.find(l => l.id === leadId);
+      if (!lead) return;
+
+      chatModalLeadName.textContent = lead.name;
+      chatModalLeadLocation.textContent = `${lead.mandal}, ${lead.district} • ${lead.interest}`;
+      chatModalPhone.value = lead.phone;
+
+      let msg = campaignMessageText.value || INDUSTRY_TEMPLATES[lead.industry].defaultText;
+      msg = msg.replace(/{{name}}/g, lead.name)
+               .replace(/{{mandal}}/g, lead.mandal)
+               .replace(/{{district}}/g, lead.district)
+               .replace(/{{business_name}}/g, clientSession.businessName)
+               .replace(/{{phone}}/g, `+91 ${clientSession.phone}`)
+               .replace(/{{loan_offer}}/g, lead.interest);
+
+      chatModalMessage.value = msg;
+
+      // Update wa.me link
+      const encoded = encodeURIComponent(msg);
+      btnModalOpenWhatsapp.href = `https://wa.me/91${lead.phone}?text=${encoded}`;
+
+      chatModal.classList.remove("hidden");
+    }
+
+    btnCloseChatModal.addEventListener("click", () => chatModal.classList.add("hidden"));
+    btnModalCancel.addEventListener("click", () => chatModal.classList.add("hidden"));
+    btnModalOpenWhatsapp.addEventListener("click", () => {
+      chatModal.classList.add("hidden");
+      showToast("Redirecting to WhatsApp with pre-filled message...");
+    });
+
+    // --- STATS UPDATE HELPER ---
+    function updateStats() {
+      const total = leadsData.length;
+      const contacted = leadsData.filter(l => l.status === "Contacted" || l.status === "Interested" || l.status === "Closed").length;
+      const interested = leadsData.filter(l => l.status === "Interested" || l.status === "Closed").length;
+
+      document.getElementById("statScrapedTotal").textContent = total;
+      document.getElementById("statContactedTotal").textContent = contacted;
+      document.getElementById("kpiTotalLeads").textContent = total;
+      document.getElementById("kpiMessagesSent").textContent = contacted;
+      document.getElementById("kpiInterestedLeads").textContent = interested;
+    }
+
+    // --- INITIALIZE APPLICATION ---
+    populateDistricts();
+    syncCampaignTemplate("auto_finance");
+    renderLeadsTable();
+    updateStats();
+
+  </script>
+</body>
+</html>
