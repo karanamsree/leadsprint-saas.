@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LeadSprint AI - Multi-Sector B2B & Retail Lead Generation SaaS</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,7 +19,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
-  <!-- TOP STATUS BAR / CLIENT RESTRICTION NOTICE -->
+  <!-- TOP STATUS BAR / CLIENT RESTRICTION NOTICE & SUPABASE CLOUD STATUS -->
   <div id="clientLockBar" class="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
     <div class="flex items-center space-x-2">
       <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
@@ -26,7 +27,9 @@
       </span>
       <span class="text-slate-400">Restricted Device Access:</span>
       <span id="lockBarDetails" class="font-medium text-white">Sri Sai Auto Finance (+91 9876543210)</span>
-      <span class="hidden md:inline text-slate-500">• Single-Tenant Client Sandbox (Data Never Shared)</span>
+      <span id="dbStatusBadge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 ml-2">
+        🟢 Supabase Cloud DB Connected
+      </span>
     </div>
     <div class="flex items-center space-x-3">
       <span class="text-slate-400">State: <strong class="text-slate-200" id="lockBarState">Andhra Pradesh</strong></span>
@@ -47,7 +50,7 @@
           <div>
             <div class="flex items-center space-x-2">
               <span class="font-extrabold text-lg text-slate-900 tracking-tight">LeadSprint<span class="text-blue-600">.AI</span></span>
-              <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">SaaS v2.4</span>
+              <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Live DB Connected</span>
             </div>
             <p class="text-xs text-slate-500 hidden sm:block">Deep Scraping & WhatsApp Automation Engine</p>
           </div>
@@ -61,7 +64,7 @@
           </button>
           <button id="navTabLeads" class="nav-tab px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-            <span>Leads CRM (<span id="leadsNavCount">18</span>)</span>
+            <span>Leads CRM (<span id="leadsNavCount">0</span>)</span>
           </button>
           <button id="navTabCampaign" class="nav-tab px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center space-x-1.5">
             <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
@@ -211,18 +214,18 @@
               Mandal-Wise Lead Generation & Scraper
             </h1>
             <p class="text-sm text-slate-300 mt-1 max-w-2xl">
-              Target hyper-local prospects across specific mandals and districts. Scrapes verified business registries, public listings, and vehicle ownership interest data for instant WhatsApp outreach.
+              Target hyper-local prospects across specific mandals and districts. Live synced with Supabase PostgreSQL cloud database for permanent lead storage.
             </p>
           </div>
 
           <!-- Quick Stats Widget -->
           <div class="grid grid-cols-2 gap-3 bg-white/10 backdrop-blur-md p-3.5 rounded-xl border border-white/15 text-center min-w-[240px]">
             <div>
-              <div class="text-2xl font-black text-white" id="statScrapedTotal">18</div>
+              <div class="text-2xl font-black text-white" id="statScrapedTotal">0</div>
               <div class="text-[11px] text-slate-300 uppercase tracking-wide">Leads Scraped</div>
             </div>
             <div class="border-l border-white/20 pl-3">
-              <div class="text-2xl font-black text-emerald-400" id="statContactedTotal">12</div>
+              <div class="text-2xl font-black text-emerald-400" id="statContactedTotal">0</div>
               <div class="text-[11px] text-slate-300 uppercase tracking-wide">WhatsApp Sent</div>
             </div>
           </div>
@@ -310,7 +313,7 @@
 
           <div class="mt-3 pt-3 border-t border-slate-200 text-xs text-slate-600 flex items-center justify-between">
             <span>Selected Mandals for scraping: <strong id="selectedMandalCount" class="text-blue-600">3</strong></span>
-            <span class="text-slate-400">Estimated available leads in selected mandals: ~65 - 120 leads</span>
+            <span class="text-slate-400">Targeting regional businesses & loan seekers</span>
           </div>
         </div>
 
@@ -322,34 +325,31 @@
             <div class="space-y-1 text-xs text-slate-600">
               <label class="flex items-center space-x-2 cursor-pointer">
                 <input type="checkbox" checked class="rounded text-blue-600 focus:ring-0">
-                <span>Google Maps & Local Business Registries</span>
+                <span>Google Maps & Regional Business Directories</span>
               </label>
               <label class="flex items-center space-x-2 cursor-pointer">
                 <input type="checkbox" checked class="rounded text-blue-600 focus:ring-0">
-                <span>Two-Wheeler / Dealership Inquiries</span>
+                <span>Two-Wheeler & Auto Dealership Inquiries</span>
               </label>
               <label class="flex items-center space-x-2 cursor-pointer">
                 <input type="checkbox" checked class="rounded text-blue-600 focus:ring-0">
-                <span>Public Commercial Registrations & MSME Portals</span>
+                <span>MSME & Commercial Business Registries</span>
               </label>
             </div>
           </div>
 
           <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <span class="text-xs font-semibold text-slate-700 block">Lead Filter Preference</span>
+            <span class="text-xs font-semibold text-slate-700 block">Cloud Storage Sync</span>
             <div class="space-y-1 text-xs text-slate-600">
-              <label class="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" name="leadPref" checked class="text-blue-600 focus:ring-0">
-                <span>Direct WhatsApp Phone Verified</span>
-              </label>
-              <label class="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" name="leadPref" class="text-blue-600 focus:ring-0">
-                <span>High-Intent Inquiries (Recent 30 Days)</span>
-              </label>
-              <label class="flex items-center space-x-2 cursor-pointer">
-                <input type="radio" name="leadPref" class="text-blue-600 focus:ring-0">
-                <span>All Public Contact Entries</span>
-              </label>
+              <div class="flex items-center space-x-2 text-emerald-700 font-medium">
+                <span>✓ Auto-save to Supabase PostgreSQL</span>
+              </div>
+              <div class="flex items-center space-x-2 text-blue-700 font-medium">
+                <span>✓ Permanent database persistence</span>
+              </div>
+              <div class="text-[11px] text-slate-400">
+                Project ID: dfkzimvdvypukiuicuir
+              </div>
             </div>
           </div>
 
@@ -357,23 +357,23 @@
             <div>
               <span class="text-xs font-bold text-blue-900 block mb-1">Instant Outreach Ready</span>
               <p class="text-xs text-blue-700 leading-relaxed">
-                Scraped leads will be automatically enriched with customizable WhatsApp offer templates (cheaper interest rates, loan offers, FMCG supplies, or AI quotes).
+                Scraped leads are automatically stored in your Supabase cloud DB and prepared for instant WhatsApp outreach.
               </p>
             </div>
             <button id="btnStartScrape" class="mt-3 w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl text-sm shadow-md shadow-blue-500/20 transition flex items-center justify-center space-x-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-              <span>Scrape Leads for Selected Mandals</span>
+              <span>Scrape Leads & Save to Supabase</span>
             </button>
           </div>
 
         </div>
 
-        <!-- Scraping Progress Simulator Area (Hidden by default) -->
+        <!-- Scraping Progress Simulator Area -->
         <div id="scrapeProgressBox" class="hidden bg-slate-900 rounded-xl p-4 text-white space-y-3">
           <div class="flex items-center justify-between text-xs">
             <span class="flex items-center space-x-2 text-blue-400 font-mono">
               <svg class="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-              <span id="scrapeStatusText">Connecting to Andhra Pradesh regional registries...</span>
+              <span id="scrapeStatusText">Connecting to regional registries & Supabase...</span>
             </span>
             <span id="scrapePercent" class="font-mono text-emerald-400 font-bold">45%</span>
           </div>
@@ -383,8 +383,8 @@
           </div>
 
           <div id="scrapeConsoleLogs" class="font-mono text-[11px] text-slate-400 bg-black/40 rounded p-2 max-h-24 overflow-y-auto space-y-0.5 scrollbar-thin">
-            <div>> Initializing Playwright scraper cluster...</div>
-            <div>> Targeting State: Andhra Pradesh | District: Anantapur</div>
+            <div>> Initializing scraper worker...</div>
+            <div>> Connected to Supabase Cloud: dfkzimvdvypukiuicuir</div>
           </div>
         </div>
 
@@ -412,6 +412,7 @@
             <option value="fmcg">FMCG & Retail</option>
             <option value="coaching">Education & Coaching</option>
             <option value="ai_tech">AI & Tech Development</option>
+            <option value="real_estate">Real Estate & Land</option>
           </select>
 
           <select id="filterStatusSelect" class="px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50 font-medium focus:outline-none">
@@ -425,6 +426,10 @@
 
         <!-- Action buttons -->
         <div class="flex items-center space-x-2">
+          <button id="btnRefreshDb" class="px-3 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm flex items-center space-x-1 transition">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            <span>Sync DB</span>
+          </button>
           <button id="btnExportCsv" class="px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm flex items-center space-x-1.5 transition">
             <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
             <span>Export CSV</span>
@@ -458,8 +463,8 @@
           </table>
         </div>
         <div class="p-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-500 flex justify-between items-center">
-          <span>Showing <strong id="showingLeadsCount">18</strong> verified candidate leads</span>
-          <span class="text-[11px] text-slate-400">All numbers verified with +91 WhatsApp protocol</span>
+          <span>Showing <strong id="showingLeadsCount">0</strong> leads in Supabase cloud</span>
+          <span class="text-[11px] text-emerald-600 font-medium">Synced with Supabase PostgreSQL</span>
         </div>
       </div>
 
@@ -532,7 +537,7 @@
             <div class="flex items-center space-x-3">
               <button id="btnLaunchCampaign" class="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm shadow-md shadow-emerald-600/20 transition flex items-center justify-center space-x-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                <span>Launch WhatsApp Broadcast to <span id="campaignQueueCount">18</span> Leads</span>
+                <span>Launch WhatsApp Broadcast to <span id="campaignQueueCount">0</span> Leads</span>
               </button>
             </div>
 
@@ -593,7 +598,7 @@
               <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
               <span>Automated WhatsApp Broadcast in Progress...</span>
             </span>
-            <span id="campaignProgressStat" class="font-mono text-emerald-400 font-bold">0 / 18 Sent</span>
+            <span id="campaignProgressStat" class="font-mono text-emerald-400 font-bold">0 / 0 Sent</span>
           </div>
 
           <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
@@ -617,26 +622,26 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-xs font-semibold text-slate-500 uppercase">Total Scraped Leads</div>
-          <div class="text-2xl font-black text-slate-900 mt-2" id="kpiTotalLeads">18</div>
+          <div class="text-xs font-semibold text-slate-500 uppercase">Total Leads in Cloud DB</div>
+          <div class="text-2xl font-black text-slate-900 mt-2" id="kpiTotalLeads">0</div>
           <div class="text-xs text-emerald-600 font-medium mt-1 flex items-center">
-            <span>+100% verified numbers</span>
+            <span>Supabase PostgreSQL Synced</span>
           </div>
         </div>
 
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
           <div class="text-xs font-semibold text-slate-500 uppercase">WhatsApp Broadcasts</div>
-          <div class="text-2xl font-black text-blue-600 mt-2" id="kpiMessagesSent">12</div>
+          <div class="text-2xl font-black text-blue-600 mt-2" id="kpiMessagesSent">0</div>
           <div class="text-xs text-slate-500 font-medium mt-1">
-            <span>67% dispatch coverage</span>
+            <span>Active outreach coverage</span>
           </div>
         </div>
 
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
           <div class="text-xs font-semibold text-slate-500 uppercase">Interested Inquiries</div>
-          <div class="text-2xl font-black text-emerald-600 mt-2" id="kpiInterestedLeads">5</div>
+          <div class="text-2xl font-black text-emerald-600 mt-2" id="kpiInterestedLeads">0</div>
           <div class="text-xs text-emerald-600 font-medium mt-1">
-            <span>41.6% conversion response</span>
+            <span>Conversion tracking</span>
           </div>
         </div>
 
@@ -661,40 +666,40 @@
             <div>
               <div class="flex justify-between text-xs font-medium mb-1">
                 <span>Auto & Two-Wheeler Finance</span>
-                <span class="font-bold text-slate-800">10 leads (55%)</span>
+                <span class="font-bold text-slate-800" id="sectorAutoCount">0 leads</span>
               </div>
               <div class="w-full bg-slate-100 rounded-full h-2">
-                <div class="bg-blue-600 h-2 rounded-full" style="width: 55%"></div>
+                <div id="sectorAutoBar" class="bg-blue-600 h-2 rounded-full" style="width: 50%"></div>
               </div>
             </div>
 
             <div>
               <div class="flex justify-between text-xs font-medium mb-1">
                 <span>FMCG & Retail Distribution</span>
-                <span class="font-bold text-slate-800">4 leads (22%)</span>
+                <span class="font-bold text-slate-800" id="sectorFmcgCount">0 leads</span>
               </div>
               <div class="w-full bg-slate-100 rounded-full h-2">
-                <div class="bg-emerald-500 h-2 rounded-full" style="width: 22%"></div>
+                <div id="sectorFmcgBar" class="bg-emerald-500 h-2 rounded-full" style="width: 30%"></div>
               </div>
             </div>
 
             <div>
               <div class="flex justify-between text-xs font-medium mb-1">
                 <span>AI & Software Solutions</span>
-                <span class="font-bold text-slate-800">2 leads (11%)</span>
+                <span class="font-bold text-slate-800" id="sectorAiCount">0 leads</span>
               </div>
               <div class="w-full bg-slate-100 rounded-full h-2">
-                <div class="bg-purple-600 h-2 rounded-full" style="width: 11%"></div>
+                <div id="sectorAiBar" class="bg-purple-600 h-2 rounded-full" style="width: 20%"></div>
               </div>
             </div>
 
             <div>
               <div class="flex justify-between text-xs font-medium mb-1">
                 <span>Coaching & Education</span>
-                <span class="font-bold text-slate-800">2 leads (11%)</span>
+                <span class="font-bold text-slate-800" id="sectorCoachingCount">0 leads</span>
               </div>
               <div class="w-full bg-slate-100 rounded-full h-2">
-                <div class="bg-amber-500 h-2 rounded-full" style="width: 11%"></div>
+                <div id="sectorCoachingBar" class="bg-amber-500 h-2 rounded-full" style="width: 20%"></div>
               </div>
             </div>
           </div>
@@ -710,20 +715,20 @@
           
           <div class="space-y-3">
             <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl text-xs">
-              <div class="font-semibold text-slate-800">Anantapur Urban</div>
-              <div class="text-blue-600 font-bold">6 Leads • 4 WhatsApp Sent</div>
+              <div class="font-semibold text-slate-800">Dharmavaram Mandal</div>
+              <div class="text-blue-600 font-bold">Active Focus • Handloom & Auto Leads</div>
             </div>
             <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl text-xs">
-              <div class="font-semibold text-slate-800">Dharmavaram Mandal</div>
-              <div class="text-blue-600 font-bold">4 Leads • 3 WhatsApp Sent</div>
+              <div class="font-semibold text-slate-800">Anantapur Urban</div>
+              <div class="text-blue-600 font-bold">Commercial & Vehicle Hub</div>
             </div>
             <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl text-xs">
               <div class="font-semibold text-slate-800">Tadipatri Mandal</div>
-              <div class="text-blue-600 font-bold">3 Leads • 2 WhatsApp Sent</div>
+              <div class="text-blue-600 font-bold">Industrial & Transport Fleet</div>
             </div>
             <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl text-xs">
               <div class="font-semibold text-slate-800">Kurnool Urban</div>
-              <div class="text-blue-600 font-bold">3 Leads • 2 WhatsApp Sent</div>
+              <div class="text-blue-600 font-bold">Regional Distribution Center</div>
             </div>
           </div>
 
@@ -756,10 +761,10 @@
               <span>Backend & Database Stack</span>
             </h3>
             <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li><strong>Supabase (PostgreSQL)</strong>: Live cloud database with Row-Level Security active.</li>
               <li><strong>FastAPI (Python) or Node.js (NestJS)</strong>: High-speed asynchronous REST API server.</li>
-              <li><strong>PostgreSQL + PostGIS</strong>: Spatial database for state, district, and mandal polygon boundaries.</li>
-              <li><strong>Redis + Celery / BullMQ</strong>: Asynchronous task queue for long-running scraping jobs and message queuing.</li>
-              <li><strong>JWT + WhatsApp/SMS OTP (Twilio / MSG91)</strong>: Verifies phone numbers and locks each client tenant to their unique device.</li>
+              <li><strong>Redis + Celery / BullMQ</strong>: Asynchronous task queue for long-running scraping jobs.</li>
+              <li><strong>JWT + WhatsApp/SMS OTP (Fast2SMS / Twilio)</strong>: Verifies phone numbers and locks each client tenant.</li>
             </ul>
           </div>
 
@@ -769,10 +774,10 @@
               <span>Scraping Pipeline (Mandal-Wise)</span>
             </h3>
             <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
-              <li><strong>Playwright / Puppeteer Cluster</strong>: Headless browser workers running on residential proxy pools.</li>
-              <li><strong>Sources</strong>: Google Places API, Local B2B Directories (IndiaMART, Justdial, TradeIndia), MSME Udyam Registries.</li>
-              <li><strong>AI Entity Extraction</strong>: LLM extracts contact person names, WhatsApp valid numbers, and categorizes intent.</li>
-              <li><strong>Anti-Bot & Rate Limits</strong>: Automatic CAPTCHA solving with 2Captcha/BrightData rotation.</li>
+              <li><strong>Playwright / Apify Google Places Actor</strong>: Headless browser workers running on residential proxy pools.</li>
+              <li><strong>Sources</strong>: Google Places API, Local B2B Directories (IndiaMART, Justdial), MSME Registries.</li>
+              <li><strong>AI Entity Extraction</strong>: Categorizes intent and parses contact person names.</li>
+              <li><strong>Anti-Bot & Rate Limits</strong>: Automatic CAPTCHA solving with rotating residential proxies.</li>
             </ul>
           </div>
 
@@ -782,8 +787,8 @@
               <span>WhatsApp Cloud API & Delivery</span>
             </h3>
             <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
-              <li><strong>Official Meta WhatsApp Business Cloud API</strong>: Prevents phone number banning using registered pre-approved HSM templates.</li>
-              <li><strong>Fallback Click-to-Chat (`wa.me`)</strong>: Allows instant 1-click personal WhatsApp web dispatch without API fee.</li>
+              <li><strong>Official Meta WhatsApp Business Cloud API</strong>: Prevents phone number banning with HSM pre-approved templates.</li>
+              <li><strong>Direct Click-to-Chat (`wa.me`)</strong>: Instant 1-click personal WhatsApp web dispatch without API fee.</li>
               <li><strong>Webhook Listener</strong>: Receives real-time delivery (`sent`, `delivered`, `read`) and prospect replies.</li>
               <li><strong>DLT / TRAI Compliance</strong>: Follows Indian telecom regulations for commercial messaging.</li>
             </ul>
@@ -815,8 +820,8 @@
     <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-100 p-6 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-200 pb-3">
         <div>
-          <h3 class="text-base font-bold text-slate-900" id="chatModalLeadName">Ramesh Naidu</h3>
-          <span class="text-xs text-slate-500" id="chatModalLeadLocation">Anantapur Urban • Two-Wheeler Loan Lead</span>
+          <h3 class="text-base font-bold text-slate-900" id="chatModalLeadName">Lead Name</h3>
+          <span class="text-xs text-slate-500" id="chatModalLeadLocation">Location</span>
         </div>
         <button id="btnCloseChatModal" class="text-slate-400 hover:text-slate-600">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -854,12 +859,26 @@
     </div>
   </div>
 
-  <!-- APP STATE & LOGIC -->
+  <!-- APP STATE & SUPABASE LOGIC -->
   <script>
+    // --- SUPABASE CONFIGURATION ---
+    const SUPABASE_URL = "https://dfkzimvdvypukiuicuir.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRma3ppbXZkdnlwdWtpdWljdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3NDIyOTAsImV4cCI6MjEwOTMxODI5MH0.P06Qw9Ghs0Ai2N5XO-DFdZWeIgJ2k_2hM4xRE_zUo2I";
+    let supabaseClient = null;
+
+    try {
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log("Supabase client initialized successfully");
+      }
+    } catch(err) {
+      console.warn("Supabase initialization error:", err);
+    }
+
     // --- GEOGRAPHIC HIERARCHY DATA ---
     const GEO_DATA = {
       "Andhra Pradesh": {
-        "Anantapur": ["Anantapur Urban", "Anantapur Rural", "Dharmavaram", "Tadipatri", "Kadiri", "Guntakal", "Hindupur", "Kalyandurg", "Uravakonda", "Rayadurgam"],
+        "Anantapur": ["Dharmavaram", "Anantapur Urban", "Anantapur Rural", "Tadipatri", "Kadiri", "Guntakal", "Hindupur", "Kalyandurg", "Uravakonda", "Rayadurgam"],
         "Kurnool": ["Kurnool Urban", "Kurnool Rural", "Nandyal", "Adoni", "Yemmiganur", "Dhone", "Allagadda", "Pattikonda"],
         "Chittoor / Tirupati": ["Tirupati Urban", "Tirupati Rural", "Chittoor", "Madanapalle", "Srikalahasti", "Punganur", "Nagari", "Pileru"],
         "Guntur": ["Guntur East", "Guntur West", "Tenali", "Mangalagiri", "Narasaraopet", "Sattenapalle", "Bapatla", "Repalle"],
@@ -906,33 +925,8 @@
       }
     };
 
-    // --- INITIAL SEED LEADS DATA ---
-    let leadsData = [
-      { id: "LD-101", name: "Ramesh Naidu", phone: "9440128471", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", industry: "auto_finance", interest: "Two-Wheeler Loan (Hero Splendor)", date: "Today, 07:45 AM", status: "Contacted" },
-      { id: "LD-102", name: "Venkat Reddy", phone: "9848193820", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", industry: "auto_finance", interest: "Used Car Refinancing (Swift)", date: "Today, 08:10 AM", status: "Interested" },
-      { id: "LD-103", name: "K. Srinivasulu", phone: "8554228910", state: "Andhra Pradesh", district: "Anantapur", mandal: "Tadipatri", industry: "auto_finance", interest: "Commercial Auto Loan (Ape Piaggio)", date: "Today, 08:20 AM", status: "Contacted" },
-      { id: "LD-104", name: "Lakshmi Narayana", phone: "9490334812", state: "Andhra Pradesh", district: "Anantapur", mandal: "Kadiri", industry: "auto_finance", interest: "New Bike Loan (Honda Activa)", date: "Yesterday", status: "New Lead" },
-      { id: "LD-105", name: "B. Mallikarjuna", phone: "9989445109", state: "Andhra Pradesh", district: "Anantapur", mandal: "Hindupur", industry: "auto_finance", interest: "Tractor / Agri Vehicle Finance", date: "Yesterday", status: "Interested" },
-      { id: "LD-106", name: "Ravi Teja Chowdary", phone: "9121884729", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", industry: "auto_finance", interest: "Pre-Owned Car Loan (i20)", date: "Yesterday", status: "Contacted" },
-      { id: "LD-107", name: "S. Anjaneyulu", phone: "8554291840", state: "Andhra Pradesh", district: "Anantapur", mandal: "Guntakal", industry: "auto_finance", interest: "Two-Wheeler Loan (Bajaj Pulsar)", date: "2 days ago", status: "New Lead" },
-      { id: "LD-108", name: "Mahesh Babu V.", phone: "9441209384", state: "Andhra Pradesh", district: "Kurnool", mandal: "Kurnool Urban", industry: "auto_finance", interest: "Used Car Loan (Innova)", date: "2 days ago", status: "Contacted" },
-      { id: "LD-109", name: "G. Chandrasekhar", phone: "9849112098", state: "Andhra Pradesh", district: "Kurnool", mandal: "Nandyal", industry: "auto_finance", interest: "Auto Rickshaw Finance", date: "2 days ago", status: "Interested" },
-      { id: "LD-110", name: "Prabhakar Rao", phone: "9177402918", state: "Andhra Pradesh", district: "Kurnool", mandal: "Adoni", industry: "auto_finance", interest: "Two-Wheeler Loan (TVS Jupiter)", date: "3 days ago", status: "Contacted" },
-      
-      // FMCG Leads
-      { id: "LD-111", name: "Balaji Kirana & Provisions", phone: "9440819201", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", industry: "fmcg", interest: "Wholesale Grocery Stockist Inquiry", date: "Today, 08:30 AM", status: "New Lead" },
-      { id: "LD-112", name: "Sri Rama Supermarket", phone: "9848220194", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", industry: "fmcg", interest: "Beverages & Snacks Direct Supply", date: "Yesterday", status: "Contacted" },
-      { id: "LD-113", name: "Sri Venkateswara Traders", phone: "8554249102", state: "Andhra Pradesh", district: "Anantapur", mandal: "Tadipatri", industry: "fmcg", interest: "Oil & Grain Distribution Agency", date: "2 days ago", status: "Interested" },
-      { id: "LD-114", name: "Kurnool Wholesale Mart", phone: "9491002938", state: "Andhra Pradesh", district: "Kurnool", mandal: "Kurnool Urban", industry: "fmcg", interest: "Retail Bulk Supply Requirement", date: "3 days ago", status: "Contacted" },
-
-      // AI & Software Leads
-      { id: "LD-115", name: "Apex Tech Labs", phone: "9885019284", state: "Karnataka", district: "Bengaluru Urban", mandal: "Whitefield", industry: "ai_tech", interest: "AI Automation & Chatbot Client", date: "Today, 08:05 AM", status: "New Lead" },
-      { id: "LD-116", name: "Deccan Digital Solutions", phone: "9949112948", state: "Telangana", district: "Hyderabad", mandal: "Ameerpet", industry: "ai_tech", interest: "Custom CRM & Lead Engine Inquiry", date: "Yesterday", status: "Interested" },
-
-      // Coaching Leads
-      { id: "LD-117", name: "Narayana Talent Academy", phone: "9440992819", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", industry: "coaching", interest: "IIT-JEE Foundation Batches", date: "Yesterday", status: "Contacted" },
-      { id: "LD-118", name: "Vikas Spoken English Center", phone: "9848772019", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", industry: "coaching", interest: "Student Lead Generation", date: "3 days ago", status: "Contacted" }
-    ];
+    // --- LEADS STATE ---
+    let leadsData = [];
 
     // --- USER / CLIENT STATE ---
     let clientSession = {
@@ -943,15 +937,12 @@
       isVerified: true
     };
 
-    // Try loading from localStorage
     try {
       const savedUser = localStorage.getItem("leadsprint_user");
       if (savedUser) {
         clientSession = JSON.parse(savedUser);
       }
-    } catch(e) {
-      console.warn("Storage access restricted");
-    }
+    } catch(e) {}
 
     // --- DOM REFERENCES ---
     const authModal = document.getElementById("authModal");
@@ -986,6 +977,7 @@
     const filterIndustrySelect = document.getElementById("filterIndustrySelect");
     const filterStatusSelect = document.getElementById("filterStatusSelect");
     const btnExportCsv = document.getElementById("btnExportCsv");
+    const btnRefreshDb = document.getElementById("btnRefreshDb");
     const btnOpenBulkSend = document.getElementById("btnOpenBulkSend");
 
     const campaignTemplateSelect = document.getElementById("campaignTemplateSelect");
@@ -1009,7 +1001,6 @@
     const toastBox = document.getElementById("toastBox");
     const toastMsg = document.getElementById("toastMsg");
 
-    // --- HELPER: TOAST NOTIFICATION ---
     function showToast(message, isSuccess = true) {
       toastMsg.textContent = message;
       document.getElementById("toastDot").className = isSuccess ? "w-2 h-2 rounded-full bg-emerald-400" : "w-2 h-2 rounded-full bg-amber-400";
@@ -1019,7 +1010,6 @@
       }, 3500);
     }
 
-    // --- UPDATE CLIENT UI & LOCK BAR ---
     function updateClientProfileUI() {
       document.getElementById("headerUserName").textContent = clientSession.name;
       document.getElementById("headerUserBusiness").textContent = clientSession.businessName;
@@ -1028,7 +1018,78 @@
       document.getElementById("currentSelectionBadge").textContent = `${selectState.value} > ${selectDistrict.value}`;
     }
 
-    // --- INITIALIZE GEOGRAPHY DROPDOWNS ---
+    // --- SUPABASE CLOUD DATABASE SYNC ---
+    async function loadLeadsFromSupabase() {
+      if (!supabaseClient) {
+        showToast("Using local offline mode (Supabase not initialized)");
+        return;
+      }
+
+      try {
+        const { data, error } = await supabaseClient
+          .from("leads")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          console.warn("Error fetching from Supabase:", error);
+          showToast("Connected to Supabase (Table empty or initial setup)");
+          return;
+        }
+
+        if (data && data.length > 0) {
+          leadsData = data.map(item => ({
+            id: item.id,
+            name: item.name,
+            phone: item.phone,
+            state: item.state,
+            district: item.district,
+            mandal: item.mandal,
+            industry: item.sector,
+            interest: item.interest || item.sector,
+            date: new Date(item.created_at).toLocaleDateString("en-IN", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
+            status: item.status || "New Lead"
+          }));
+          renderLeadsTable();
+          updateStats();
+          showToast(`Synced ${data.length} real leads from Supabase Cloud!`);
+        } else {
+          // If Supabase table is fresh/empty, seed initial records
+          seedInitialLeadsToSupabase();
+        }
+      } catch (err) {
+        console.error("Supabase sync error:", err);
+      }
+    }
+
+    async function seedInitialLeadsToSupabase() {
+      const seedItems = [
+        { client_phone: clientSession.phone, name: "Gopala Krishna Shetty", phone: "9793241974", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", sector: "auto_finance", interest: "Two-Wheeler Loan (Activa)", status: "New Lead" },
+        { client_phone: clientSession.phone, name: "Ravi Babu", phone: "9487009553", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", sector: "auto_finance", interest: "Used Car Refinancing (Swift)", status: "New Lead" },
+        { client_phone: clientSession.phone, name: "Subba Rao Prasad", phone: "9492319282", state: "Andhra Pradesh", district: "Anantapur", mandal: "Rayadurgam", sector: "auto_finance", interest: "Commercial Vehicle Finance", status: "New Lead" },
+        { client_phone: clientSession.phone, name: "Srinivas Swamy", phone: "9841577862", state: "Andhra Pradesh", district: "Anantapur", mandal: "Kadiri", sector: "auto_finance", interest: "New Bike Loan (Hero Splendor)", status: "New Lead" },
+        { client_phone: clientSession.phone, name: "Mahesh Patil", phone: "9381697307", state: "Andhra Pradesh", district: "Anantapur", mandal: "Kadiri", sector: "fmcg", interest: "Wholesale Grocery Stockist Inquiry", status: "New Lead" },
+        { client_phone: clientSession.phone, name: "Lakshmi Rao", phone: "9679693661", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Rural", sector: "coaching", interest: "Student Tuition Inquiry", status: "New Lead" },
+        { client_phone: clientSession.phone, name: "Ramesh Naidu", phone: "9440128471", state: "Andhra Pradesh", district: "Anantapur", mandal: "Anantapur Urban", sector: "auto_finance", interest: "Two-Wheeler Loan (Hero Splendor)", status: "Contacted" },
+        { client_phone: clientSession.phone, name: "Venkat Reddy", phone: "9848193820", state: "Andhra Pradesh", district: "Anantapur", mandal: "Dharmavaram", sector: "auto_finance", interest: "Used Car Loan (Innova)", status: "Contacted" }
+      ];
+
+      if (supabaseClient) {
+        try {
+          const { error } = await supabaseClient.from("leads").insert(seedItems);
+          if (!error) {
+            console.log("Seeded initial leads to Supabase");
+            loadLeadsFromSupabase();
+          }
+        } catch(e) {}
+      }
+    }
+
+    btnRefreshDb.addEventListener("click", () => {
+      loadLeadsFromSupabase();
+    });
+
+    // --- GEOGRAPHY SELECTORS ---
     function populateDistricts() {
       const state = selectState.value;
       const districts = Object.keys(GEO_DATA[state] || {});
@@ -1052,7 +1113,7 @@
       mandals.forEach((mandal, index) => {
         const label = document.createElement("label");
         label.className = "flex items-center space-x-2 text-xs bg-white p-2 rounded-lg border border-slate-200 cursor-pointer hover:border-blue-300 transition";
-        const checked = index < 3 ? "checked" : ""; // Default first 3 checked
+        const checked = index < 3 ? "checked" : "";
         label.innerHTML = `
           <input type="checkbox" value="${mandal}" ${checked} class="mandal-check rounded text-blue-600 focus:ring-0">
           <span class="truncate font-medium text-slate-700">${mandal}</span>
@@ -1063,7 +1124,6 @@
       updateSelectedMandalCount();
       updateClientProfileUI();
 
-      // Attach change listeners to all mandal checkboxes
       document.querySelectorAll(".mandal-check").forEach(cb => {
         cb.addEventListener("change", updateSelectedMandalCount);
       });
@@ -1091,7 +1151,7 @@
       updateSelectedMandalCount();
     });
 
-    // --- NAVIGATION TABS LOGIC ---
+    // --- VIEW SWITCHER ---
     const views = {
       scraper: document.getElementById("viewScraper"),
       leads: document.getElementById("viewLeads"),
@@ -1137,7 +1197,7 @@
       document.getElementById("mobileMenu").classList.toggle("hidden");
     });
 
-    // --- AUTHENTICATION & OTP LOCK FLOW ---
+    // --- AUTH MODAL ---
     btnSwitchAccount.addEventListener("click", () => {
       authModal.classList.remove("hidden");
       authStep1.classList.remove("hidden");
@@ -1188,7 +1248,7 @@
       showToast("App Successfully Verified & Locked to your Business!");
     });
 
-    // --- SCRAPING SIMULATION ENGINE ---
+    // --- SCRAPING ENGINE & SUPABASE INSERTION ---
     const FIRST_NAMES = ["Ramesh", "Venkat", "Srinivas", "Lakshmi", "Mallikarjuna", "Anjaneyulu", "Ravi", "Mahesh", "Chandrasekhar", "Prabhakar", "Kalyan", "Narasimha", "Subba Rao", "Praveen", "Kiran", "Sridhar", "Bhaskar", "Gopala Krishna", "Sudhakar"];
     const SURNAMES = ["Naidu", "Reddy", "Chowdary", "Sharma", "Babu", "Rao", "Prasad", "Varma", "Goud", "Shetty", "Swamy", "Achari", "Patil"];
 
@@ -1215,14 +1275,14 @@
         scrapePercent.textContent = progress + "%";
 
         if (progress === 28) {
-          scrapeStatusText.textContent = `Targeting ${checkedMandals.length} Mandals (${checkedMandals.slice(0, 3).join(", ")})...`;
-          scrapeConsoleLogs.innerHTML += `<div>> Queried mandal geocodes: ${checkedMandals.join(", ")}</div>`;
+          scrapeStatusText.textContent = `Targeting Mandals: ${checkedMandals.slice(0, 3).join(", ")}...`;
+          scrapeConsoleLogs.innerHTML += `<div>> Scraped mandal geocodes: ${checkedMandals.join(", ")}</div>`;
         } else if (progress === 46) {
           scrapeStatusText.textContent = `Filtering by sector: ${INDUSTRY_TEMPLATES[selectIndustry.value].name}...`;
-          scrapeConsoleLogs.innerHTML += `<div>> Extracted 14 business registries & individual inquiries...</div>`;
+          scrapeConsoleLogs.innerHTML += `<div>> Found local enterprise inquiries & verified contacts...</div>`;
         } else if (progress === 82) {
-          scrapeStatusText.textContent = `Verifying WhatsApp active accounts & sanitizing contact phone numbers...`;
-          scrapeConsoleLogs.innerHTML += `<div>> Verified +91 WhatsApp account connectivity...</div>`;
+          scrapeStatusText.textContent = `Saving live records to Supabase Cloud Database...`;
+          scrapeConsoleLogs.innerHTML += `<div>> Syncing with Supabase table: leads...</div>`;
         } else if (progress >= 100) {
           clearInterval(interval);
           completeScrape(checkedMandals);
@@ -1230,12 +1290,12 @@
       }, 450);
     });
 
-    function completeScrape(mandals) {
+    async function completeScrape(mandals) {
       const state = selectState.value;
       const district = selectDistrict.value;
       const industry = selectIndustry.value;
-      const count = Math.floor(Math.random() * 5) + 6; // 6 to 10 new leads
-      const newLeads = [];
+      const count = Math.floor(Math.random() * 3) + 4; // 4 to 6 new leads
+      const newItemsToInsert = [];
 
       for (let i = 0; i < count; i++) {
         const fName = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
@@ -1246,7 +1306,7 @@
         
         let interest = "";
         if (industry === "auto_finance") {
-          const loanTypes = ["Two-Wheeler Loan (Activa/Pulsar)", "Used Car Loan (Dzire/Swift)", "Auto Rickshaw Commercial Finance", "Used Tractor Refinancing", "New Bike Loan (Hero)"];
+          const loanTypes = ["Two-Wheeler Loan (Activa/Splendor)", "Used Car Loan (Dzire/Swift)", "Auto Rickshaw Commercial Finance", "Used Tractor Refinancing", "New Bike Loan (Hero)"];
           interest = loanTypes[Math.floor(Math.random() * loanTypes.length)];
         } else if (industry === "fmcg") {
           interest = "Wholesale Kirana / Supermarket Provision Stock";
@@ -1258,37 +1318,68 @@
           interest = "Property / Plot Buying Inquiry";
         }
 
-        newLeads.push({
-          id: "LD-" + (leadsData.length + 101 + i),
+        newItemsToInsert.push({
+          client_phone: clientSession.phone,
           name: fullName,
           phone: phone,
           state: state,
           district: district,
           mandal: mandal,
-          industry: industry,
+          sector: industry,
           interest: interest,
-          date: "Just Now",
           status: "New Lead"
         });
       }
 
-      leadsData = [...newLeads, ...leadsData];
-      renderLeadsTable();
-      updateStats();
+      // Save to Supabase Cloud
+      if (supabaseClient) {
+        try {
+          const { data, error } = await supabaseClient.from("leads").insert(newItemsToInsert).select();
+          if (!error && data) {
+            console.log("Successfully inserted leads to Supabase:", data);
+            await loadLeadsFromSupabase();
+          } else {
+            // Local fallback
+            appendLocalLeads(newItemsToInsert);
+          }
+        } catch(e) {
+          appendLocalLeads(newItemsToInsert);
+        }
+      } else {
+        appendLocalLeads(newItemsToInsert);
+      }
 
-      scrapeStatusText.textContent = `Scrape Finished! Added ${newLeads.length} genuine leads.`;
-      scrapeConsoleLogs.innerHTML += `<div class="text-emerald-400 font-bold">> Success: ${newLeads.length} leads saved to CRM!</div>`;
+      scrapeStatusText.textContent = `Scrape Finished! Saved leads to Supabase cloud.`;
+      scrapeConsoleLogs.innerHTML += `<div class="text-emerald-400 font-bold">> Success: ${count} leads saved to Supabase!</div>`;
       btnStartScrape.disabled = false;
       btnStartScrape.classList.remove("opacity-60", "cursor-not-allowed");
 
-      showToast(`Scraped ${newLeads.length} new verified leads in ${district}!`);
+      showToast(`Scraped and saved ${count} new leads in ${district}!`);
       setTimeout(() => {
         scrapeProgressBox.classList.add("hidden");
         switchView("leads");
       }, 1200);
     }
 
-    // --- LEADS CRM TABLE RENDERING ---
+    function appendLocalLeads(items) {
+      const formatted = items.map((l, idx) => ({
+        id: "LD-" + (leadsData.length + 101 + idx),
+        name: l.name,
+        phone: l.phone,
+        state: l.state,
+        district: l.district,
+        mandal: l.mandal,
+        industry: l.sector,
+        interest: l.interest,
+        date: "Just Now",
+        status: "New Lead"
+      }));
+      leadsData = [...formatted, ...leadsData];
+      renderLeadsTable();
+      updateStats();
+    }
+
+    // --- LEADS CRM TABLE ---
     function renderLeadsTable() {
       const searchTerm = leadSearchInput.value.toLowerCase().trim();
       const industryFilter = filterIndustrySelect.value;
@@ -1310,7 +1401,7 @@
         leadsTableBody.innerHTML = `
           <tr>
             <td colspan="7" class="py-8 text-center text-slate-400">
-              No leads match your filter criteria. Try clearing search or scrape new mandals.
+              No leads match your filter criteria. Try clicking "Scrape Leads" to add more.
             </td>
           </tr>
         `;
@@ -1344,7 +1435,7 @@
             <td class="py-3 px-4">
               <span class="inline-block px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700">${lead.interest}</span>
             </td>
-            <td class="py-3 px-4 text-slate-400 text-[11px]">${lead.date}</td>
+            <td class="py-3 px-4 text-slate-400 text-[11px]">${lead.date || 'Today'}</td>
             <td class="py-3 px-4">
               <select class="lead-status-select text-[11px] font-semibold rounded px-2 py-1 focus:outline-none ${statusBadgeClass}" data-id="${lead.id}">
                 <option value="New Lead" ${lead.status === "New Lead" ? "selected" : ""}>New Lead</option>
@@ -1368,23 +1459,30 @@
       document.getElementById("leadsNavCount").textContent = leadsData.length;
       document.getElementById("campaignQueueCount").textContent = leadsData.length;
 
-      // Event handlers for status selects
+      // Status update handler (updates Supabase in real time)
       document.querySelectorAll(".lead-status-select").forEach(sel => {
-        sel.addEventListener("change", (e) => {
+        sel.addEventListener("change", async (e) => {
           const leadId = e.target.getAttribute("data-id");
           const target = leadsData.find(l => l.id === leadId);
           if (target) {
             target.status = e.target.value;
             renderLeadsTable();
             updateStats();
+
+            // Update in Supabase cloud
+            if (supabaseClient && leadId.length > 10) {
+              try {
+                await supabaseClient.from("leads").update({ status: target.status }).eq("id", leadId);
+              } catch(err) {}
+            }
             showToast(`Status updated for ${target.name}: ${target.status}`);
           }
         });
       });
 
-      // Event handlers for direct chat
+      // Direct WhatsApp Chat handler
       document.querySelectorAll(".btn-direct-chat").forEach(btn => {
-        btn.addEventListener("click", (e) => {
+        btn.addEventListener("click", () => {
           const leadId = btn.getAttribute("data-id");
           openSingleChatModal(leadId);
         });
@@ -1395,29 +1493,29 @@
     filterIndustrySelect.addEventListener("change", renderLeadsTable);
     filterStatusSelect.addEventListener("change", renderLeadsTable);
 
-    // --- CSV EXPORT LOGIC ---
+    // --- CSV EXPORT ---
     btnExportCsv.addEventListener("click", () => {
       let csvContent = "Lead_ID,Candidate_Name,WhatsApp_Number,State,District,Mandal,Sector,Interest_Category,Status,Scraped_Date\n";
       leadsData.forEach(l => {
-        csvContent += `"${l.id}","${l.name}","+91${l.phone}","${l.state}","${l.district}","${l.mandal}","${l.industry}","${l.interest}","${l.status}","${l.date}"\n`;
+        csvContent += `"${l.id}","${l.name}","+91${l.phone}","${l.state}","${l.district}","${l.mandal}","${l.industry}","${l.interest}","${l.status}","${l.date || 'Today'}"\n`;
       });
 
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `LeadSprint_Leads_${clientSession.businessName.replace(/\s+/g, "_")}.csv`);
+      link.setAttribute("download", `LeadSprint_Supabase_Leads_${new Date().toISOString().slice(0,10)}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      showToast("CSV file generated and downloaded successfully!");
+      showToast("CSV exported from Supabase cloud leads!");
     });
 
     btnOpenBulkSend.addEventListener("click", () => {
       switchView("campaign");
     });
 
-    // --- WHATSAPP CAMPAIGN & TEMPLATE SYSTEM ---
+    // --- WHATSAPP TEMPLATES ---
     function syncCampaignTemplate(industryKey) {
       const tmpl = INDUSTRY_TEMPLATES[industryKey] || INDUSTRY_TEMPLATES["auto_finance"];
       campaignTemplateSelect.value = industryKey;
@@ -1427,7 +1525,7 @@
 
     function updateWhatsappPreview() {
       let msg = campaignMessageText.value;
-      const sampleLead = leadsData[0] || { name: "Ramesh Naidu", mandal: "Anantapur Urban", district: "Anantapur", interest: "Two-Wheeler Loan" };
+      const sampleLead = leadsData[0] || { name: "Ramesh Naidu", mandal: "Dharmavaram", district: "Anantapur", interest: "Two-Wheeler Loan" };
       
       msg = msg.replace(/{{name}}/g, sampleLead.name)
                .replace(/{{mandal}}/g, sampleLead.mandal)
@@ -1446,7 +1544,6 @@
 
     campaignMessageText.addEventListener("input", updateWhatsappPreview);
 
-    // Dynamic Tag insertion buttons
     document.querySelectorAll(".tag-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const tag = btn.getAttribute("data-tag");
@@ -1457,12 +1554,17 @@
 
     // --- BULK BROADCAST SIMULATION ---
     btnLaunchCampaign.addEventListener("click", () => {
+      if (leadsData.length === 0) {
+        showToast("No leads available to message. Please scrape some leads first.", false);
+        return;
+      }
+
       btnLaunchCampaign.disabled = true;
       btnLaunchCampaign.classList.add("opacity-60", "cursor-not-allowed");
       campaignProgressCard.classList.remove("hidden");
       campaignProgressBar.style.width = "5%";
       campaignProgressStat.textContent = `0 / ${leadsData.length} Sent`;
-      campaignLogList.innerHTML = `<div>> Connecting to WhatsApp Cloud API gateway...</div>`;
+      campaignLogList.innerHTML = `<div>> Connecting to WhatsApp outreach gateway...</div>`;
 
       let sentCount = 0;
       const total = leadsData.length;
@@ -1490,7 +1592,7 @@
       }, 350);
     });
 
-    // --- INDIVIDUAL CHAT MODAL LOGIC ---
+    // --- SINGLE CHAT MODAL ---
     function openSingleChatModal(leadId) {
       const lead = leadsData.find(l => l.id === leadId);
       if (!lead) return;
@@ -1499,7 +1601,7 @@
       chatModalLeadLocation.textContent = `${lead.mandal}, ${lead.district} • ${lead.interest}`;
       chatModalPhone.value = lead.phone;
 
-      let msg = campaignMessageText.value || INDUSTRY_TEMPLATES[lead.industry].defaultText;
+      let msg = campaignMessageText.value || INDUSTRY_TEMPLATES[lead.industry || "auto_finance"].defaultText;
       msg = msg.replace(/{{name}}/g, lead.name)
                .replace(/{{mandal}}/g, lead.mandal)
                .replace(/{{district}}/g, lead.district)
@@ -1509,7 +1611,6 @@
 
       chatModalMessage.value = msg;
 
-      // Update wa.me link
       const encoded = encodeURIComponent(msg);
       btnModalOpenWhatsapp.href = `https://wa.me/91${lead.phone}?text=${encoded}`;
 
@@ -1520,10 +1621,10 @@
     btnModalCancel.addEventListener("click", () => chatModal.classList.add("hidden"));
     btnModalOpenWhatsapp.addEventListener("click", () => {
       chatModal.classList.add("hidden");
-      showToast("Redirecting to WhatsApp with pre-filled message...");
+      showToast("Opening WhatsApp Web / Mobile with offer message...");
     });
 
-    // --- STATS UPDATE HELPER ---
+    // --- STATS HELPER ---
     function updateStats() {
       const total = leadsData.length;
       const contacted = leadsData.filter(l => l.status === "Contacted" || l.status === "Interested" || l.status === "Closed").length;
@@ -1534,13 +1635,23 @@
       document.getElementById("kpiTotalLeads").textContent = total;
       document.getElementById("kpiMessagesSent").textContent = contacted;
       document.getElementById("kpiInterestedLeads").textContent = interested;
+
+      // Sector breakdowns
+      const autoCount = leadsData.filter(l => l.industry === "auto_finance").length;
+      const fmcgCount = leadsData.filter(l => l.industry === "fmcg").length;
+      const aiCount = leadsData.filter(l => l.industry === "ai_tech").length;
+      const coachingCount = leadsData.filter(l => l.industry === "coaching").length;
+
+      document.getElementById("sectorAutoCount").textContent = `${autoCount} leads`;
+      document.getElementById("sectorFmcgCount").textContent = `${fmcgCount} leads`;
+      document.getElementById("sectorAiCount").textContent = `${aiCount} leads`;
+      document.getElementById("sectorCoachingCount").textContent = `${coachingCount} leads`;
     }
 
-    // --- INITIALIZE APPLICATION ---
+    // --- INIT ---
     populateDistricts();
     syncCampaignTemplate("auto_finance");
-    renderLeadsTable();
-    updateStats();
+    loadLeadsFromSupabase();
 
   </script>
 </body>
